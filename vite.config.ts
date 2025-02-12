@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  base: '/<REPO>/',
+  base: '/5hanayome-cardgame-counter/',
   plugins: [
     react(),
     VitePWA({
