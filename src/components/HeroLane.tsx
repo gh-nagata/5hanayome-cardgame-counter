@@ -6,16 +6,6 @@ type Props = {
 }
 const HeroLane = (props: Props) => {
 
-    useEffect(() => {
-
-        console.log(props.requiredPower)
-
-        return () => {
-
-        }
-    }, [props.requiredPower])
-
-
     const options = Array.from({ length: 5 }, (_, i) => (
         <option key={i + 6} value={i + 6}>
             {i + 6}
