@@ -18,12 +18,12 @@ export default defineConfig({
         orientation: "landscape", // ここを追加
         icons: [
           {
-            src: '/icons/icon-192x192.png',
+            src: '/5hanayome-cardgame-counter/icons/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/icons/icon-512x512.png',
+            src: '/5hanayome-cardgame-counter/icons/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
