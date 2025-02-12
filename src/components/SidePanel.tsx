@@ -1,3 +1,4 @@
+import { div } from "framer-motion/m";
 import React, { useState, useEffect } from "react";
 
 type Props = {
@@ -5,6 +6,9 @@ type Props = {
 };
 
 const SidePanel = (props: Props) => {
+
+    const [mode, setMode] = useState('coin')
+
     const [time, setTime] = useState(20 * 60); // 20分（秒単位）
     const [isRunning, setIsRunning] = useState(false);
 
@@ -36,27 +40,97 @@ const SidePanel = (props: Props) => {
         setTime(20 * 60);
     };
 
+    const [turn, setTurn] = useState<"先攻" | "後攻" | null>(null);
+    const [flipping, setFlipping] = useState(false);
+    const [rotation, setRotation] = useState(0); // 回転角度を管理
+
+    const flipCoin = () => {
+        if (flipping) return;
+
+        setFlipping(true);
+        setTurn(null); // 回転中は表示しない
+
+        // 一瞬 transform をリセットすることで、リフローを強制
+        setRotation(0);
+        setTimeout(() => {
+            setRotation(1080); // 3回転させる
+        }, 10); // 短い遅延を入れることで確実にアニメーションが適用される
+
+        setTimeout(() => {
+            setTurn(Math.random() < 0.5 ? "先攻" : "後攻");
+            setFlipping(false);
+        }, 1500); // 回転時間を長めに
+    };
+
     return (
-        <div className={`${props.className} h-screen w-16  text-white flex flex-col items-center justify-between p-6`}>
-            <h1 className={`text-lg font-bold writing-mode-vertical-rl ${time < 0 ? "text-red-500" : ""}`}>
-                {formatTime(time)}
-            </h1>
-            <div className="flex flex-col space-y-2">
-                <button
-                    onClick={handleStart}
-                    className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 writing-mode-vertical-rl"
+        <div className={`${props.className} h-screen w-16 text-white flex flex-col items-center justify-between `}>
+            <div className="flex flex-col items-center">
+                <div
+                    className="w-10 h-10 font-bold text-xs bg-stone-950 border border-white m-2 rounded-full flex items-center justify-center"
+                    onClick={() => {
+                        if (window.confirm("ページを更新しますか？")) {
+                            window.location.reload();
+                        }
+                    }}
                 >
-                    スタート
-                </button>
-                <button
-                    onClick={handleReset}
-                    className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 writing-mode-vertical-rl"
+                    リロード
+                </div>
+
+                {(mode === 'coin') && <div className="w-12 h-6 bg-white text-black text-center rounded  m-2" onClick={() => { setMode('time') }}>コイン</div >}
+                {(mode === 'time') && <div className="w-12 h-6 bg-white text-black text-center rounded  m-2" onClick={() => { setMode('coin') }}>タイム</div >}
+                {(mode === 'coin') && <div
+                    className="coin m-4 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white text-lg cursor-pointer"
+                    style={{
+                        transform: `rotateX(${rotation}deg)`, // 3回転
+                        transition: rotation ? "transform 1.5s linear" : "none", // リセット時はアニメーションなし
+                    }}
+                    onClick={flipCoin}
                 >
-                    リセット
-                </button>
+                    {flipping ? "" : turn ?? ""}
+                </div>}
             </div>
+
+
+            {(mode === 'time') && <>
+                <div className={`text-lg font-bold  ${time < 0 ? "text-red-500" : ""}`}>
+                    {formatTime(time)}
+                </div>
+
+                <div className="flex flex-col space-y-2 mb-20">
+                    <button
+                        onClick={handleStart}
+                        className="my-16 bg-blue-500 text-white rounded hover:bg-blue-600 h-8 w-24 rotate-90"
+                    >
+                        スタート
+                    </button>
+                    <button
+                        onClick={handleReset}
+                        className="my-20 bg-red-500 text-white rounded hover:bg-red-600 h-8 w-24 rotate-90"
+                    >
+                        リセット
+                    </button>
+                </div>
+            </>}
         </div>
     );
 };
+// const testCoinFlip = () => {
+//     let firstCount = 0;
+//     let secondCount = 0;
+
+//     for (let i = 0; i < 1000; i++) {
+//         const result = Math.random() < 0.5 ? "先攻" : "後攻";
+//         if (result === "先攻") {
+//             firstCount++;
+//         } else {
+//             secondCount++;
+//         }
+//     }
+
+//     console.log(`先攻: ${firstCount}, 後攻: ${secondCount}`);
+// };
+
+// // 実行
+// testCoinFlip();
 
 export default SidePanel;

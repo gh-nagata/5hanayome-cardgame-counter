@@ -12,7 +12,7 @@ export default defineConfig({
         name: '五等分の花嫁カードゲームカウンター',
         short_name: 'ごとカドカウンター',
         description: 'This is a PWA application built with Vite and React.',
-        theme_color: '#ffffff',
+        theme_color: '#1f2937',
         background_color: '#ffffff',
         display: 'standalone',
         orientation: "landscape", // ここを追加
