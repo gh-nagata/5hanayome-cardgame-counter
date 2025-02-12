@@ -14,6 +14,7 @@ export default defineConfig({
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
+        orientation: "landscape", // ここを追加
         icons: [
           {
             src: '/icons/icon-192x192.png',

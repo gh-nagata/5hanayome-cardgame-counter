@@ -12,13 +12,13 @@ const App = () => {
       <div className="main h-full flex-1  flex items-center ">
         <div className="flex flex-col justify-between py-2 h-full max-h-96 w-full">
           <div className="flex justify-between h-2/5 m-1">
-            <CharacterLane number={1} />
-            <CharacterLane number={2} />
-            <CharacterLane number={3} />
-            <CharacterLane number={4} />
-            <CharacterLane number={5} />
+            <CharacterLane number={1} opponentCharacterLane={true} />
+            <CharacterLane number={2} opponentCharacterLane={true} />
+            <CharacterLane number={3} opponentCharacterLane={true} />
+            <CharacterLane number={4} opponentCharacterLane={true} />
+            <CharacterLane number={5} opponentCharacterLane={true} />
           </div>
-          <HeroLanes />
+          <HeroLanes className=' h-1/6 m-1' />
           <div className="flex justify-between h-2/5 m-1">
             <CharacterLane number={1} />
             <CharacterLane number={2} />
@@ -30,7 +30,7 @@ const App = () => {
       </div>
 
       {/* サイドパネル */}
-      <SidePanel className="side h-full w-12   " />
+      <SidePanel className="side h-full w-12  bg-gray-800 " />
     </div>
   )
 }

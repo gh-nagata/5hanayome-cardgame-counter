@@ -37,7 +37,7 @@ const SidePanel = (props: Props) => {
     };
 
     return (
-        <div className={`${props.className} h-screen w-16 bg-gray-800 text-white flex flex-col items-center justify-between p-6`}>
+        <div className={`${props.className} h-screen w-16  text-white flex flex-col items-center justify-between p-6`}>
             <h1 className={`text-lg font-bold writing-mode-vertical-rl ${time < 0 ? "text-red-500" : ""}`}>
                 {formatTime(time)}
             </h1>

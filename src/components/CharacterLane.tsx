@@ -4,6 +4,7 @@ import { useRequiredBridalPower } from '../contexts/RequiredBridalPowerContext';
 
 type Props = {
     number: number;
+    opponentCharacterLane?: boolean
 };
 
 const CharacterLane = (props: Props) => {
@@ -78,7 +79,7 @@ const CharacterLane = (props: Props) => {
                 className={`
                     w-1/3 flex items-center justify-center cursor-pointer border border-red-600
                     ${value === 0 || value === 6 ? `invisible pointer-events-none` : ``}
-                    ${value === selectedApproach ? `text-red-600 font-bold` : ``}
+                    ${value === selectedApproach ? `text-white font-bold bg-red-600` : ``}
                 `}
             >
                 <Approach number={value} />
@@ -93,11 +94,11 @@ const CharacterLane = (props: Props) => {
     ));
 
     return (
-        <div className='w-1/5 border border-red-600'>
-            <div className='h-1/4 flex justify-between'>
+        <div className='w-1/5 border border-red-600 flex flex-col'>
+            <div className={`h-1/4 flex justify-between ${props.opponentCharacterLane ? 'order-2' : 'order-1'}`}>
                 {approaches}
             </div>
-            <div className='h-3/4 flex'>
+            <div className={`h-3/4 flex ${props.opponentCharacterLane ? 'order-1' : 'order-2'}`}>
                 <div className='h-full w-8/12 flex justify-between flex-col'>
                     <div className=' w-full h-1/2'>
                         <select
@@ -123,14 +124,14 @@ const CharacterLane = (props: Props) => {
                 <div className="total h-full w-4/12 text-center flex items-center justify-center flex-col">
                     total
                     <br />
-                    <div
-                        className={`${selectedApproach ? `text-red-600 font-bold` : ``} `}>
+                    <div className={`${selectedApproach ? `text-red-600 font-bold` : ``}`}>
                         {totalPower}
                     </div>
                 </div>
             </div>
         </div>
     );
+    
 };
 
 export default CharacterLane;
