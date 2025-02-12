@@ -66,7 +66,7 @@ const SidePanel = (props: Props) => {
         <div className={`${props.className} h-screen w-16 text-white flex flex-col items-center justify-between `}>
             <div className="flex flex-col items-center">
                 <div
-                    className="w-10 h-10 font-bold text-xs bg-stone-950 border border-white m-2 rounded-full flex items-center justify-center"
+                    className="w-12 h-8 font-bold text-xs bg-stone-950 border border-white m-2 rounded-lg flex items-center justify-center"
                     onClick={() => {
                         if (window.confirm("ページを更新しますか？")) {
                             window.location.reload();
@@ -76,10 +76,10 @@ const SidePanel = (props: Props) => {
                     リロード
                 </div>
 
-                {(mode === 'coin') && <div className="w-12 h-6 bg-white text-black text-center rounded  m-2" onClick={() => { setMode('time') }}>コイン</div >}
-                {(mode === 'time') && <div className="w-12 h-6 bg-white text-black text-center rounded  m-2" onClick={() => { setMode('coin') }}>タイム</div >}
+                {(mode === 'coin') && <div className="w-12 h-8 bg-white text-black  rounded-lg  m-2 flex items-center justify-center font-medium" onClick={() => { setMode('time') }}>コイン</div >}
+                {(mode === 'time') && <div className="w-12 h-8 bg-white text-black  rounded-lg  m-2 flex items-center justify-center font-medium" onClick={() => { setMode('coin') }}>タイム</div >}
                 {(mode === 'coin') && <div
-                    className="coin m-4 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white text-lg cursor-pointer"
+                    className="coin m-4 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white text-lg cursor-pointer font-bold"
                     style={{
                         transform: `rotateX(${rotation}deg)`, // 3回転
                         transition: rotation ? "transform 1.5s linear" : "none", // リセット時はアニメーションなし
