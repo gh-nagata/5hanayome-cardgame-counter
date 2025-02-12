@@ -38,8 +38,10 @@ jobs:
         env:
           VITE_BASE: "/<REPO>/"
 
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
+        with:
+          enablement: true # ← **ここを追加**
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
