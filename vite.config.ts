@@ -9,8 +9,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'My PWA App',
-        short_name: 'PWA App',
+        name: '五等分の花嫁カードゲームカウンター',
+        short_name: 'ごとカドカウンター',
         description: 'This is a PWA application built with Vite and React.',
         theme_color: '#ffffff',
         background_color: '#ffffff',
