@@ -12,9 +12,7 @@ type Props = {
 
 export const InputStateProvider = (props: Props) => {
 
-    // const [isSelectApproach, setIsSelectApproach] = useState([false, false, false, false, false,])
     const selectedApproachState = useState<null | number>(null)
-    // const [isApproach, setApproach] = useState([false, false, false, false, false,])
     const isApproachState = useState([false, false, false, false, false, false, false, false, false, false,])
 
 

@@ -47,10 +47,31 @@ const Character = (props: Props) => {
     }, [hanayomePower, addHanayomePower])
 
     const onClickTotal = () => {
-        if (selectedApproach !== props.characterNumber) {
+        if (selectedApproach !== props.characterNumber && !isApproach[props.characterNumber]) {
             setSelectedApproach(props.characterNumber)
         } else {
             setSelectedApproach(null)
+        }
+
+        if (isApproach[props.characterNumber]) {
+            // const setApproachFalse = (i: number) => {    // i番目の要素をtrueに
+            //     setIsApproachState(prevState => {
+            //         const newState = [...prevState]; // 配列のコピーを作成
+            //         newState[i] = false; // 指定されたインデックスを false に変更
+            //         return newState; // 更新
+            //     });
+            // };
+            // setApproachFalse(props.characterNumber)
+
+            const setApproachToggle = (i: number) => {
+                setIsApproachState(prevState => {
+                    const newState = [...prevState]; // 配列のコピーを作成
+                    newState[i] = !newState[i]; // ← これで反転（トグル）
+                    return newState; // 更新
+                });
+            };
+            setApproachToggle(props.characterNumber)
+
         }
     }
 
