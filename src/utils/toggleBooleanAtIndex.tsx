@@ -6,9 +6,9 @@
  */
 const toggleBooleanAtIndex = (i: number, setReactState: (value: React.SetStateAction<boolean[]>) => void) => {
     setReactState(prevState => {
-        const newState = [...prevState]; // 配列のコピーを作成
-        newState[i] = !newState[i]; // ← これで反転（トグル）
-        return newState; // 更新
+        const newState = [...prevState];
+        newState[i] = !newState[i];
+        return newState;
     });
 };
 
