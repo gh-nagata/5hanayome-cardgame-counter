@@ -4,5 +4,11 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    // wide: 横長 tall:縦長
+    function ({ addVariant }) {
+      addVariant("wide", "@media (min-aspect-ratio: 1/1)");
+      addVariant("tall", "@media (max-aspect-ratio: 1/1)");
+    },
+  ],
 };

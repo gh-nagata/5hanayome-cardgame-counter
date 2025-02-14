@@ -76,8 +76,8 @@ const SidePanel = (props: Props) => {
     };
 
     return (
-        <div className={`${props.className} h-screen w-16 text-white flex flex-col items-center justify-between`}>
-            <div className="flex flex-col items-center">
+        <div className={`${props.className}  text-white flex flex-col items-center justify-between`}>
+            {/* <div className="flex flex-col items-center">
                 <div className="w-12 h-8 font-bold text-xs bg-stone-950 border border-white m-2 rounded-lg flex items-center justify-center"
                     onClick={() => { if (window.confirm("ページを更新しますか？")) window.location.reload(); }}>
                     リロード
@@ -98,7 +98,7 @@ const SidePanel = (props: Props) => {
                     <button onClick={handleStart} className="my-16 bg-blue-500 text-white rounded hover:bg-blue-600 h-8 w-24 rotate-90">スタート</button>
                     <button onClick={handleReset} className="my-20 bg-red-500 text-white rounded hover:bg-red-600 h-8 w-24 rotate-90">リセット</button>
                 </div>
-            </>}
+            </>} */}
         </div>
     );
 };
