@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
+import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
 
 type Props = {
     characterNumber: number
@@ -54,24 +55,7 @@ const Character = (props: Props) => {
         }
 
         if (isApproach[props.characterNumber]) {
-            // const setApproachFalse = (i: number) => {    // i番目の要素をtrueに
-            //     setIsApproachState(prevState => {
-            //         const newState = [...prevState]; // 配列のコピーを作成
-            //         newState[i] = false; // 指定されたインデックスを false に変更
-            //         return newState; // 更新
-            //     });
-            // };
-            // setApproachFalse(props.characterNumber)
-
-            const setApproachToggle = (i: number) => {
-                setIsApproachState(prevState => {
-                    const newState = [...prevState]; // 配列のコピーを作成
-                    newState[i] = !newState[i]; // ← これで反転（トグル）
-                    return newState; // 更新
-                });
-            };
-            setApproachToggle(props.characterNumber)
-
+            toggleBooleanAtIndex(props.characterNumber, setIsApproachState)
         }
     }
 

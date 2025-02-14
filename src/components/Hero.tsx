@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
+import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
 
 const Hero = () => {
 
@@ -24,27 +25,13 @@ const Hero = () => {
             />
         )
     })
-
-    const setApproachTrue = (i: number) => {    // i番目の要素をtrueに
-        setIsApproachState(prevState => {
-            const newState = [...prevState]; // 配列のコピーを作成
-            newState[i] = true; // 指定されたインデックスを true に変更
-            return newState; // 更新
-        });
-    };
-    const setApproachToggle = (i: number) => {
-        setIsApproachState(prevState => {
-            const newState = [...prevState]; // 配列のコピーを作成
-            newState[i] = !newState[i]; // ← これで反転（トグル）
-            return newState; // 更新
-        });
-    };
+    
     const selectArea = selectedApproach ? ( // アプローチ選択モード
         <div
             className="z-10 w-full h-full flex justify-center items-center appearance-none bg-transparent"
             onClick={() => {
                 setSelectedApproach(null)
-                setApproachToggle(selectedApproach)
+                toggleBooleanAtIndex(selectedApproach, setIsApproachState)
             }}
         >
             {requiredHanayomePower}
