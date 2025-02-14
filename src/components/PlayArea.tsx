@@ -1,23 +1,35 @@
 import React from 'react'
+import Character from './Character'
+import CharacterLane from './CharacterLane'
+import HeroLane from './HeroLane'
 
 
 type Props = {
-    classname: string
+    classname?: string
 }
 const PlayArea = (props: Props) => {
+
+    const OpponentCharacterLanes = [...Array(5)].map((_, i) => (
+        <CharacterLane key={i} characterNumber={i + 5} />
+    ))
+    const MyCharacterLanes = [...Array(5)].map((_, i) => (
+        <CharacterLane key={i} characterNumber={i} MyArea={true} />
+    ))
+    const HeroLanes = [...Array(5)].map((_, i) => (
+        <HeroLane key={i} />
+    ))
+
     return (
         <div className={`${props.classname}`}>
-            <div className='CharacterArea flex bg-pink-200 h-2/5'>
-                <div className='CharacterLane bg-green-200 w-1/5 h-full'>
-                <div className='Character h-full'>
-                    <div className='h-1/3 flex justify-center items-center bg-slate-300'>00</div>
-                    <div className='h-1/3 flex justify-center items-center bg-slate-400'>00</div>
-                    <div className='h-1/3 flex justify-center items-center bg-slate-500'>00</div>
-                </div>
-                </div>
+            <div className='CharacterLanes flex h-2/5 bg-pink-200'>
+                {OpponentCharacterLanes}
             </div>
-            <div className='HeroArea h-1/5'></div>
-            <div className='CharacterArea bg-pink-200 h-2/5'></div>
+            <div className='HeroLanes flex h-1/5 bg-pink-100'>
+                {HeroLanes}
+            </div>
+            <div className='CharacterLanes flex h-2/5 bg-pink-200'>
+                {MyCharacterLanes}
+            </div>
         </div>
     )
 }
