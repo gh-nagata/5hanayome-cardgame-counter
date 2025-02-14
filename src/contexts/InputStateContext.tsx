@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type InputStateContextType = {
-    isSelectApproachState: [boolean[], React.Dispatch<React.SetStateAction<boolean[]>>]
-    isApproachState: [boolean[], React.Dispatch<React.SetStateAction<boolean[]>>]
+    selectedApproachState: [number | null, React.Dispatch<React.SetStateAction<number | null>>],
+    isApproachState: [boolean[], React.Dispatch<React.SetStateAction<boolean[]>>],
 }
 const InputStateContext = createContext<InputStateContextType | null>(null)
 
@@ -13,16 +13,15 @@ type Props = {
 export const InputStateProvider = (props: Props) => {
 
     // const [isSelectApproach, setIsSelectApproach] = useState([false, false, false, false, false,])
-    const isSelectApproachState = useState([false, false, false, false, false, false, false, false, false, false,])
+    const selectedApproachState = useState<null | number>(null)
     // const [isApproach, setApproach] = useState([false, false, false, false, false,])
     const isApproachState = useState([false, false, false, false, false, false, false, false, false, false,])
 
 
     useEffect(() => {
 
-        isSelectApproachState[0].forEach((isSelectApproach, i) => {
-            console.log('isSelectApproach ' + i + ' : ' + isSelectApproach);
-        })
+        console.log('selectedApproachState ' + ' : ' + selectedApproachState[0]);
+
         isApproachState[0].forEach((isApproach, i) => {
             console.log('isApproach ' + i + ' : ' + isApproach);
         })
@@ -30,11 +29,11 @@ export const InputStateProvider = (props: Props) => {
         return () => {
             console.clear()
         }
-    }, [...isSelectApproachState[0], ...isApproachState[0]])
+    }, [selectedApproachState[0], ...isApproachState[0]])
 
 
     return (
-        <InputStateContext.Provider value={{ isSelectApproachState, isApproachState }}>
+        <InputStateContext.Provider value={{ selectedApproachState, isApproachState, }}>
             {props.children}
         </InputStateContext.Provider>
     )

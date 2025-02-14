@@ -14,12 +14,24 @@ const Character = (props: Props) => {
         [props.characterNumber, props.MyArea]
     );
 
-    const { isSelectApproachState, isApproachState } = useInputState()
-    const [isSelectApproach, setIsSelectApproach] = isSelectApproachState
-    const [isApproach, setIsApproachState] = isApproachState
+    const { selectedApproachState, isApproachState } = useInputState()
 
-    // const [isSelectApproach, setIsSelectApproach] = useState(false) // アプローチ選択中かどうか
-    // const [isApproach, setIsApproach] = useState(false) // アプローチ中かどうか
+    const [selectedApproach, setSelectedApproach] = selectedApproachState
+    const [isSelectApproach, setIsSelectApproach] = useState(false)
+    useEffect(() => {
+
+        if (selectedApproach === props.characterNumber) {
+            setIsSelectApproach(true)
+        } else {
+            setIsSelectApproach(false)
+        }
+
+        return () => {
+
+        }
+    }, [selectedApproach])
+
+    const [isApproach, setIsApproachState] = isApproachState
 
     const [hanayomePower, setHanayomePower] = useState(0)
     const [addHanayomePower, setAddHanayomePower] = useState(0)
@@ -34,18 +46,11 @@ const Character = (props: Props) => {
         }
     }, [hanayomePower, addHanayomePower])
 
-    const onClickApproach = () => {
-        // if (isSelectApproach.every(value => !value)) {  // 選択中のものが存在しない
-        //     console.log("すべて false");
-        // } else {
-        //     console.log("少なくとも1つ true");
-        // }
-
-        if (!isSelectApproach[props.characterNumber]) {
-            setIsSelectApproach(prev => prev.map((_, i) => i === props.characterNumber));   // props.characterNumberの要素を true に
+    const onClickTotal = () => {
+        if (selectedApproach !== props.characterNumber) {
+            setSelectedApproach(props.characterNumber)
         } else {
-            setIsSelectApproach([false, false, false, false, false, false, false, false, false, false,]);
-
+            setSelectedApproach(null)
         }
     }
 
@@ -83,9 +88,9 @@ const Character = (props: Props) => {
                     h-1/3 flex justify-center items-center back-slate-500 
                     `}
                 style={{    // レーン番号によって isApproach のカラーを変更
-                    backgroundColor: (isSelectApproach[props.characterNumber] || isApproach[props.characterNumber]) ? hanayomeColor[LaneNumber] : ''
+                    backgroundColor: (isSelectApproach || isApproach[props.characterNumber]) ? hanayomeColor[LaneNumber] : ''
                 }}
-                onClick={onClickApproach}
+                onClick={onClickTotal}
             >
                 {totalHanayomePower}
                 {/* {props.characterNumber} */}

@@ -7,11 +7,6 @@ type Props = {
 }
 const CharacterLane = (props: Props) => {
 
-    // const characterNumber = useMemo(() =>
-    //     props.MyArea ? props.characterNumber : props.characterNumber - 5,
-    //     [props.characterNumber, props.MyArea]
-    // );
-
     const [character, setCharacter] = useState<null | JSX.Element>(null)
 
     return (
