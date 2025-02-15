@@ -11,12 +11,9 @@ type Props = {
 }
 
 export const InputStateProvider = (props: Props) => {
-    /**
-     * アプローチ選択中のキャラ
-     */
+
     const selectedApproachState = useState<null | number>(null)
     const isApproachState = useState([false, false, false, false, false, false, false, false, false, false,])
-
 
     useEffect(() => {
 

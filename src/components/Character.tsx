@@ -20,17 +20,12 @@ const Character = (props: Props) => {
     const [selectedApproach, setSelectedApproach] = selectedApproachState
     const [isSelectApproach, setIsSelectApproach] = useState(false)
     useEffect(() => {
-
         if (selectedApproach === props.characterNumber) {
-            setIsSelectApproach(true)
+            setIsSelectApproach(true);
         } else {
-            setIsSelectApproach(false)
+            setIsSelectApproach(false);
         }
-
-        return () => {
-
-        }
-    }, [selectedApproach])
+    }, [selectedApproach]);
 
     const [isApproach, setIsApproachState] = isApproachState
 
@@ -48,14 +43,14 @@ const Character = (props: Props) => {
     }, [hanayomePower, addHanayomePower])
 
     const onClickTotal = () => {
-        if (selectedApproach !== props.characterNumber && !isApproach[props.characterNumber]) {
-            setSelectedApproach(props.characterNumber)
+        if (selectedApproach !== props.characterNumber && !isApproach[props.characterNumber]) { // 現在アプローチ選択中ではない && アプローチ中ではない
+            setSelectedApproach(props.characterNumber)  // キャラクターをアプローチ選択中にする
         } else {
-            setSelectedApproach(null)
+            setSelectedApproach(null)   // アプローチ選択中を null
         }
 
         if (isApproach[props.characterNumber]) {
-            toggleBooleanAtIndex(props.characterNumber, setIsApproachState)
+            toggleBooleanAtIndex(props.characterNumber, setIsApproachState) // props.characterNumber のアプローチ中を反転
         }
     }
 

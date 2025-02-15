@@ -27,7 +27,8 @@ const Hero = () => {
     })
 
     const selectArea =
-        selectedApproach ? ( // アプローチ選択モード
+        // selectedApproach ? ( // アプローチ選択モード
+        (selectedApproach !== null) ? ( // アプローチ選択モード
             <div
                 className="z-10 w-full h-full flex justify-center items-center appearance-none bg-transparent"
                 onClick={() => {
