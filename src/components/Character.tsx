@@ -123,7 +123,7 @@ const Character = (props: Props) => {
             </div>
             <select
                 className='
-                w-full wide:h-1/3 text-center appearance-none px-6
+                w-full wide:h-1/3 text-center appearance-none flex justify-center content-center
                 tall:h-12
                 '
                 value={hanayomePower}
