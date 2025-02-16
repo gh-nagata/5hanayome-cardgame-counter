@@ -2,9 +2,13 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 type InputStateContextType = {
     /**
-     * アプローチ選択中の番号 [null, 0-9]
+     * アプローチ選択中のキャラ [null, 0-9]
      */
     selectedApproachState: [number | null, React.Dispatch<React.SetStateAction<number | null>>],
+    /**
+     * アプローチしている主人公
+     */
+    selectHeroState: [(number | null)[], React.Dispatch<React.SetStateAction<(number | null)[]>>]
     /**
      * 自分のキャラがアプローチ中か [bool, bool, bool, bool, bool,]
      */
@@ -30,11 +34,10 @@ type Props = {
 export const InputStateProvider = (props: Props) => {
 
     const selectedApproachState = useState<null | number>(null)
+    const selectHeroState = useState<(null | number)[]>([null, null, null, null, null,])
 
     const myApproachStates = useState([false, false, false, false, false,])
     const opponentApproachStates = useState([false, false, false, false, false,])
-
-    // const [whoApproachStatus, setWhoApproachStatus] = useState([false, false, false, false, false,])
 
     const [turnPlayer, setTurnPlayer] = useState<'my' | 'opponent'>('my');
 
@@ -63,7 +66,9 @@ export const InputStateProvider = (props: Props) => {
         [false, false, false, false, false,],
         [false, false, false, false, false,],
     ])
+
     useEffect(() => {
+
         approachedByStates[1]([
             [false, false, false, false, false,],
             [false, false, false, false, false,],
@@ -71,32 +76,37 @@ export const InputStateProvider = (props: Props) => {
             [false, false, false, false, false,],
             [false, false, false, false, false,],
         ])
+
+        selectHeroState[1]([null, null, null, null, null,])
+
     }, [turnPlayer])
 
 
 
     useEffect(() => {
 
-        console.log('selectedApproachState : ' + selectedApproachState[0]);
-        console.log('turnPlayer : ' + turnPlayer);
+        // console.log('selectedApproachState : ' + selectedApproachState[0]);
+        // console.log('turnPlayer : ' + turnPlayer);
 
-        myApproachStates[0].forEach((isApproach, i) => {
-            console.log('myApproach ' + i + ' : ' + isApproach);
-        })
-        opponentApproachStates[0].forEach((isApproach, i) => {
-            console.log('opponentApproach ' + i + ' : ' + isApproach);
-        })
-        approachedByStates[0].forEach((isApproach, i) => {
-            console.log('approachedLane ' + i + ' : ' + isApproach);
-        })
+        // myApproachStates[0].forEach((isApproach, i) => {
+        //     console.log('myApproach ' + i + ' : ' + isApproach);
+        // })
+        // opponentApproachStates[0].forEach((isApproach, i) => {
+        //     console.log('opponentApproach ' + i + ' : ' + isApproach);
+        // })
+        // approachedByStates[0].forEach((isApproach, i) => {
+        //     console.log('approachedLane ' + i + ' : ' + isApproach);
+        // })
+
+        console.log(selectHeroState[0]);
 
         return () => {
             console.clear()
         }
-    }, [selectedApproachState[0], ...myApproachStates[0], ...opponentApproachStates[0], ...[...approachedByStates[0]]])
+    }, [selectedApproachState[0], ...myApproachStates[0], ...opponentApproachStates[0], ...[...approachedByStates[0]], ...selectHeroState[0]])
 
     return (
-        <InputStateContext.Provider value={{ selectedApproachState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer }}>
+        <InputStateContext.Provider value={{ selectedApproachState, selectHeroState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer }}>
             {props.children}
         </InputStateContext.Provider>
     )

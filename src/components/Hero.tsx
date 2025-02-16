@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
 import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
+import { useRequiredHanayomePower } from '../contexts/RequiredHanayomePowerContext'
 
 type Props = {
     laneNumber: number,
@@ -9,13 +10,15 @@ type Props = {
 }
 const Hero = (props: Props) => {
 
-    const { selectedApproachState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer } = useInputState()
+    const { selectedApproachState, selectHeroState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer } = useInputState()
+    const { requiredHanayomePower, setRequiredHanayomePower } = useRequiredHanayomePower()
 
     const [selectedApproach, setSelectedApproach] = selectedApproachState
     const [myApproach, setMyApproach] = myApproachStates
     const [opponentApproach, setOpponentApproach] = opponentApproachStates
 
-    const [requiredHanayomePower, setRequiredHanayomePower] = useState(10)
+    const [selectHero, setSelectHero] = selectHeroState
+
 
     const [approachStates, setApproachStates] = (turnPlayer === 'my') ? myApproachStates : opponentApproachStates    // [ bool, bool, bool, bool, bool, ]
     // const [approachStates, setApproachStates] = useMemo(() => {
@@ -48,8 +51,6 @@ const Hero = (props: Props) => {
         setApproachedBy(newApproachedBy())
     }
 
-
-
     const approachedColors = approachedBy[props.laneNumber].map((bool, i) => {
         if (!bool) return
         return (
@@ -71,6 +72,17 @@ const Hero = (props: Props) => {
         } else if (turnPlayer === 'opponent') {
             toggleBooleanAtIndex(selectedApproach - 5, setApproachStates)
         }
+
+        if (turnPlayer === 'my') {
+            const newSelectHero = [...selectHero]
+            newSelectHero[selectedApproach] = props.laneNumber
+            setSelectHero(newSelectHero)
+        } else if (turnPlayer === 'opponent') {
+            const newSelectHero = [...selectHero]
+            newSelectHero[selectedApproach - 5] = props.laneNumber
+            setSelectHero(newSelectHero)
+        }
+
         whoApproachFunction(selectedApproach)
 
         const whoApproach = selectedApproach < 5 ? selectedApproach : selectedApproach - 5
@@ -92,12 +104,17 @@ const Hero = (props: Props) => {
                 className="z-10 w-full h-full flex justify-center items-center appearance-none bg-transparent"
                 onClick={onClickApproach}
             >
-                {requiredHanayomePower}
+                {requiredHanayomePower[props.laneNumber]}
             </div>) : (
             <select
                 className="z-10 w-full h-full text-center appearance-none bg-transparent"
-                value={requiredHanayomePower}
-                onChange={(e) => setRequiredHanayomePower(Number(e.target.value))}
+                value={requiredHanayomePower[props.laneNumber]}
+                onChange={(e) => {
+                    // setRequiredHanayomePower(Number(e.target.value))
+                    const newRequiredHanayomePower = [...requiredHanayomePower]
+                    newRequiredHanayomePower[props.laneNumber] = Number(e.target.value)
+                    setRequiredHanayomePower(newRequiredHanayomePower)
+                }}
             >
                 {[...Array(5)].map((_, i) => (
                     <option key={i} value={i + 6}>{i + 6}</option>

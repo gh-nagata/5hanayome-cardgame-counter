@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
 import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
+import { useRequiredHanayomePower } from '../contexts/RequiredHanayomePowerContext'
 
 type Props = {
     characterNumber: number
@@ -15,9 +16,11 @@ const Character = (props: Props) => {
         [props.characterNumber, props.myArea]
     );
 
-    const { selectedApproachState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer } = useInputState()
+    const { selectedApproachState, selectHeroState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer } = useInputState()
+    const { requiredHanayomePower, setRequiredHanayomePower } = useRequiredHanayomePower()
 
     const [selectedApproach, setSelectedApproach] = selectedApproachState
+    const [selectedHero, setSelectedHero] = selectHeroState
 
     const [approachedBy, setApproachedBy] = approachedByStates
 
@@ -44,18 +47,32 @@ const Character = (props: Props) => {
         }
     }, [...approachStates])
 
+
     const [hanayomePower, setHanayomePower] = useState(0)
+    // const [requiredHanayomePower, setRequiredHanayomePower] = useState(0)
     const [addHanayomePower, setAddHanayomePower] = useState(0)
 
     const [totalHanayomePower, setTotalHanayomePower] = useState(0)
     useEffect(() => {
 
-        setTotalHanayomePower(hanayomePower + addHanayomePower)
+        if (!isApproach) {
+
+            setTotalHanayomePower(hanayomePower + addHanayomePower)
+
+        } else {
+
+            if (selectedHero[laneNumber] !== null) {
+                setTotalHanayomePower(hanayomePower + addHanayomePower)
+                setTotalHanayomePower(hanayomePower + addHanayomePower - requiredHanayomePower[selectedHero[laneNumber]])
+            }
+
+        }
+
 
         return () => {
             setTotalHanayomePower(0)
         }
-    }, [hanayomePower, addHanayomePower])
+    }, [hanayomePower, addHanayomePower, isApproach, ...requiredHanayomePower])
 
     const onClickTotal = () => {
         if (!isSelectApproach && !isApproach) { // 現在アプローチ選択中ではない && アプローチ中ではない
@@ -63,16 +80,6 @@ const Character = (props: Props) => {
         } else {
             setSelectedApproach(null)   // アプローチ選択中を null
 
-            // const newApproachedBy = () => {
-            //     const newArray = [...approachedBy]
-
-            //     newArray.forEach((arr) => {
-            //         arr[laneNumber] = false
-            //     })
-
-            //     return newArray
-            // }
-            // setApproachedBy(newApproachedBy())
             const newApproachedBy = () => {
                 return approachedBy.map(arr => {
                     const newArr = [...arr]; // 内部配列をコピー
@@ -80,10 +87,12 @@ const Character = (props: Props) => {
                     return newArr;
                 });
             };
-            
-            setApproachedBy(newApproachedBy());
-            
 
+            setApproachedBy(newApproachedBy());
+
+            const newSelectedHero = [...selectedHero]
+            newSelectedHero[laneNumber] = null
+            setSelectedHero(newSelectedHero)
         }
 
         if (approachStates[laneNumber]) {
