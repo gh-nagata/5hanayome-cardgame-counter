@@ -53,10 +53,6 @@ export const InputStateProvider = (props: Props) => {
             // setHeroApproachStates(opponentApproachStates[0])
             myApproachStates[1]([false, false, false, false, false,])
         }
-
-        return () => {
-
-        }
     }, [selectedApproachState[0]])
 
     const approachedByStates = useState([
@@ -66,7 +62,6 @@ export const InputStateProvider = (props: Props) => {
         [false, false, false, false, false,],
         [false, false, false, false, false,],
     ])
-
     useEffect(() => {
 
         approachedByStates[1]([
@@ -85,20 +80,20 @@ export const InputStateProvider = (props: Props) => {
 
     useEffect(() => {
 
-        // console.log('selectedApproachState : ' + selectedApproachState[0]);
-        // console.log('turnPlayer : ' + turnPlayer);
+        console.log('selectedApproachState : ' + selectedApproachState[0]);
+        console.log('turnPlayer : ' + turnPlayer);
 
-        // myApproachStates[0].forEach((isApproach, i) => {
-        //     console.log('myApproach ' + i + ' : ' + isApproach);
-        // })
-        // opponentApproachStates[0].forEach((isApproach, i) => {
-        //     console.log('opponentApproach ' + i + ' : ' + isApproach);
-        // })
+        myApproachStates[0].forEach((isApproach, i) => {
+            console.log('myApproach ' + i + ' : ' + isApproach);
+        })
+        opponentApproachStates[0].forEach((isApproach, i) => {
+            console.log('opponentApproach ' + i + ' : ' + isApproach);
+        })
         // approachedByStates[0].forEach((isApproach, i) => {
         //     console.log('approachedLane ' + i + ' : ' + isApproach);
         // })
 
-        console.log(selectHeroState[0]);
+        // console.log(selectHeroState[0]);
 
         return () => {
             console.clear()

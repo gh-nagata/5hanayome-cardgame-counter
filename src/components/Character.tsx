@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { JSX, useEffect, useMemo, useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
 import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
@@ -8,6 +8,7 @@ type Props = {
     characterNumber: number
     classname?: string,
     myArea?: boolean
+    setCharacter: React.Dispatch<React.SetStateAction<JSX.Element | null>>
 }
 const Character = (props: Props) => {
 
@@ -24,6 +25,8 @@ const Character = (props: Props) => {
 
     const [approachedBy, setApproachedBy] = approachedByStates
 
+    const [approachStates, setApproachStates] = props.myArea ? myApproachStates : opponentApproachStates    // [ bool, bool, bool, bool, bool, ]
+
     const [isSelectApproach, setIsSelectApproach] = useState(false) // このコンポーネントがアプローチ選択中か
     useEffect(() => {
         if (selectedApproach === props.characterNumber) {
@@ -33,8 +36,6 @@ const Character = (props: Props) => {
         }
     }, [selectedApproach]);
 
-    const [approachStates, setApproachStates] = props.myArea ? myApproachStates : opponentApproachStates    // [ bool, bool, bool, bool, bool, ]
-
     const [isApproach, setIsApproach] = useState(false) // このコンポーネントがアプローチ中か
     useEffect(() => {
         if (approachStates[laneNumber]) {
@@ -42,33 +43,20 @@ const Character = (props: Props) => {
         } else {
             setIsApproach(false)
         }
-        return () => {
-
-        }
     }, [...approachStates])
 
-
     const [hanayomePower, setHanayomePower] = useState(0)
-    // const [requiredHanayomePower, setRequiredHanayomePower] = useState(0)
     const [addHanayomePower, setAddHanayomePower] = useState(0)
-
     const [totalHanayomePower, setTotalHanayomePower] = useState(0)
     useEffect(() => {
-
         if (!isApproach) {
-
             setTotalHanayomePower(hanayomePower + addHanayomePower)
-
         } else {
-
             if (selectedHero[laneNumber] !== null) {
                 setTotalHanayomePower(hanayomePower + addHanayomePower)
                 setTotalHanayomePower(hanayomePower + addHanayomePower - requiredHanayomePower[selectedHero[laneNumber]])
             }
-
         }
-
-
         return () => {
             setTotalHanayomePower(0)
         }
@@ -105,8 +93,26 @@ const Character = (props: Props) => {
             <select
                 className='w-full h-1/3 text-center appearance-none'
                 value={hanayomePower}
-                onChange={(e) => setHanayomePower(Number(e.target.value))}
+                onChange={(e) => {
+                    const value = Number(e.target.value)
+                    if (value === -1) {
+                        if ((turnPlayer === 'my' && props.myArea) || (turnPlayer === 'opponent' && !props.myArea)) {
+                            setSelectedApproach(null)
+                            setApproachStates([false, false, false, false, false,])
+                            setApproachedBy([
+                                [false, false, false, false, false,],
+                                [false, false, false, false, false,],
+                                [false, false, false, false, false,],
+                                [false, false, false, false, false,],
+                                [false, false, false, false, false,],
+                            ])
+                        }
+                        props.setCharacter(null)
+                    }
+                    setHanayomePower(value)
+                }}
             >
+                <option value={-1}>-</option>
                 {[...Array(51)].map((_, i) => (
                     <option key={i} value={i}>{i}</option>
                 ))}
@@ -135,7 +141,7 @@ const Character = (props: Props) => {
                     h-1/3 flex justify-center items-center back-slate-500 
                     `}
                 style={{    // レーン番号によって approachStates のカラーを変更
-                    backgroundColor: (isSelectApproach || approachStates[laneNumber]) ? hanayomeColor[laneNumber] : ''
+                    backgroundColor: (isSelectApproach || isApproach) ? hanayomeColor[laneNumber] : ''
                 }}
                 onClick={onClickTotal}
             >

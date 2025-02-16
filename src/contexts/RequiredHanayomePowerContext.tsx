@@ -16,10 +16,7 @@ export const RequiredHanayomePowerProvider = (props: Props) => {
     const [requiredHanayomePower, setRequiredHanayomePower] = useState([10, 10, 10, 10, 10,])
 
     useEffect(() => {
-
         // console.log(requiredHanayomePower);
-        
-
         return () => {
             // console.clear();
         }
