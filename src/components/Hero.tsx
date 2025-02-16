@@ -5,9 +5,10 @@ import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
 
 const Hero = () => {
 
-    const { selectedApproachState, isApproachState } = useInputState()
+    const { selectedApproachState, approachStates} = useInputState()
     const [selectedApproach, setSelectedApproach] = selectedApproachState
-    const [isApproach, setIsApproachState] = isApproachState
+
+    const [isApproach, setIsApproachState] = approachStates
 
     const [requiredHanayomePower, setRequiredHanayomePower] = useState(10)
 

@@ -6,16 +6,19 @@ import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
 type Props = {
     characterNumber: number
     classname?: string,
-    MyArea?: boolean
+    myArea?: boolean
 }
 const Character = (props: Props) => {
 
     const LaneNumber = useMemo(() =>    // characterNumber -> [0-4]
-        props.MyArea ? props.characterNumber : props.characterNumber - 5,
-        [props.characterNumber, props.MyArea]
+        props.myArea ? props.characterNumber : props.characterNumber - 5,
+        [props.characterNumber, props.myArea]
     );
 
-    const { selectedApproachState, isApproachState } = useInputState()
+    const { selectedApproachState, approachStates } = useInputState()
+
+    // const approachStates  = props.myArea ? myApproachStates : opponentApproachStates;
+
 
     const [selectedApproach, setSelectedApproach] = selectedApproachState
     const [isSelectApproach, setIsSelectApproach] = useState(false)
@@ -27,7 +30,7 @@ const Character = (props: Props) => {
         }
     }, [selectedApproach]);
 
-    const [isApproach, setIsApproachState] = isApproachState
+    const [isApproach, setIsApproachState] = approachStates 
 
     const [hanayomePower, setHanayomePower] = useState(0)
     const [addHanayomePower, setAddHanayomePower] = useState(0)
