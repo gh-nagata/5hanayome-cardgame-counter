@@ -128,7 +128,7 @@ const Hero = (props: Props) => {
                             [false, false, false, false, false,],
                         ])
                         props.setHero(null)
-                    }else{
+                    } else {
                         const newRequiredHanayomePower = [...requiredHanayomePower]
                         newRequiredHanayomePower[props.laneNumber] = Number(value)
                         setRequiredHanayomePower(newRequiredHanayomePower)
@@ -146,8 +146,8 @@ const Hero = (props: Props) => {
         );
 
     return (
-        <div className='Hero flex relative w-full h-full font-bold'>
-            <div className='w-full h-full absolute flex bg-white'>
+        <div className='Hero flex relative w-full h-full font-bold bg-white border-t border-b border-gray-800'>
+            <div className='w-full h-full absolute flex '>
                 {approachedColors}
             </div>
             {selectArea}

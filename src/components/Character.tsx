@@ -89,9 +89,43 @@ const Character = (props: Props) => {
     }
 
     return (
-        <div className='Character w-full h-full bg-white font-bold'>
+        // <div className='Character flex flex-col w-full h-full bg-white font-bold'>
+        <div className={`Character flex  w-full h-full bg-white font-bold ${props.myArea ? 'flex-col-reverse' : 'flex-col'}`}>
+
+            <div className='
+            wide:h-1/3 flex items-center 
+            tall:flex-col-reverse tall:flex-1 tall:max-h-36
+            '>
+                <button
+                    className={`
+                    w-1/4 h-full bg-blue-500 text-white
+                    ${props.myArea ? 'wide:rounded-tr-lg ' : 'wide:rounded-br-lg '}
+                    tall:w-full tall:h-1/3 tall:rounded-t-lg
+                    `}
+                    onClick={() => { setAddHanayomePower((prev) => prev - 1) }}
+                >-</button >
+                <div className='flex-1 w-full h-full flex justify-center items-center tall:h-1/3'>
+                    <div
+                        className=' flex justify-center items-center text-base w-1/2 h-4/5 '
+                        onClick={() => { setAddHanayomePower(0) }}
+                    >
+                        {addHanayomePower}
+                    </div>
+                </div>
+                <button
+                    className={`
+                        w-1/4 h-full bg-red-500 text-white
+                        ${props.myArea ? 'wide:rounded-tl-lg ' : 'wide:rounded-bl-lg'}
+                        tall:w-full tall:h-1/3 tall:rounded-b-lg
+                        `}
+                    onClick={() => setAddHanayomePower((prev) => prev + 1)}
+                >+</button>
+            </div>
             <select
-                className='w-full h-1/3 text-center appearance-none'
+                className='
+                w-full wide:h-1/3 text-center appearance-none
+                tall:h-12
+                '
                 value={hanayomePower}
                 onChange={(e) => {
                     const value = Number(e.target.value)
@@ -113,32 +147,14 @@ const Character = (props: Props) => {
                 }}
             >
                 <option value={-1}>-</option>
-                {[...Array(51)].map((_, i) => (
+                {[...Array(101)].map((_, i) => (
                     <option key={i} value={i}>{i}</option>
                 ))}
             </select>
-            <div className='h-1/3 flex  items-center back-slate-400'>
-                <button
-                    className='w-1/4 h-full bg-gray-700 text-white rounded-r-lg'
-                    onClick={() => { setAddHanayomePower((prev) => Math.max(0, prev - 1)) }}
-                >-</button >
-                <div className='flex-1 w-full h-full flex justify-center items-center'>
-                    <div
-                        className=' flex justify-center items-center text-base w-1/2 h-4/5 '
-                        onClick={() => { setAddHanayomePower(0) }}
-                    >
-                        {addHanayomePower}
-                        {/* {laneNumber} */}
-                    </div>
-                </div>
-                <button
-                    className='w-1/4 h-full bg-gray-700 text-white rounded-l-lg'
-                    onClick={() => setAddHanayomePower((prev) => prev + 1)}
-                >+</button>
-            </div>
             <div
                 className={`
                     h-1/3 flex justify-center items-center back-slate-500 
+                    tall:h-12
                     `}
                 style={{    // レーン番号によって approachStates のカラーを変更
                     backgroundColor: (isSelectApproach || isApproach) ? hanayomeColor[laneNumber] : ''
@@ -146,7 +162,6 @@ const Character = (props: Props) => {
                 onClick={onClickTotal}
             >
                 {totalHanayomePower}
-                {/* {props.characterNumber} */}
             </div>
         </div>
     )

@@ -11,10 +11,10 @@ const CharacterLane = (props: Props) => {
 
     return (
         <div
-            className='CharacterLane relative bg-green-200 w-1/5 h-full'
+            className='CharacterLane relative w-1/5 h-full'
             onClick={() => { setCharacter(<Character characterNumber={props.characterNumber} myArea={props.MyArea} setCharacter={setCharacter} />) }}
         >
-            <span className='absolute inset-0 flex justify-center items-center text-gray-500 text-base z-0'>
+            <span className='absolute inset-0 flex justify-center items-center text-gray-500 text-xs z-0'>
                 キャラクターレーン
             </span>
             {character && (

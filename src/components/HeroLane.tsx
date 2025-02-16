@@ -16,10 +16,10 @@ const HeroLane = (props: Props) => {
 
     return (
         <div
-            className='HeroLane relative bg-green-100 w-1/5 h-full'
+            className='HeroLane relative  w-1/5 h-full'
             onClick={() => { setHero(<Hero laneNumber={props.laneNumber} setHero={setHero} className={props.className} />) }}
         >
-            <span className='absolute inset-0 flex justify-center items-center text-gray-500 text-base z-0'>
+            <span className='absolute inset-0 flex justify-center items-center text-gray-500 text-xs z-0 border-t border-b border-gray-800'>
                 主人公レーン
             </span>
             {hero && (
