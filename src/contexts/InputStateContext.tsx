@@ -28,6 +28,12 @@ export const InputStateProvider = (props: Props) => {
         }
     }, [selectedApproachState[0], ...isApproachState[0]])
 
+    useEffect(() => {
+
+        return () => {
+
+        }
+    }, [...isApproachState[0]])
 
     return (
         <InputStateContext.Provider value={{ selectedApproachState, isApproachState, }}>
