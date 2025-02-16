@@ -45,7 +45,7 @@ const Character = (props: Props) => {
         }
     }, [...approachStates])
 
-    const [hanayomePower, setHanayomePower] = useState(0)
+    const [hanayomePower, setHanayomePower] = useState(10)
     const [addHanayomePower, setAddHanayomePower] = useState(0)
     const [totalHanayomePower, setTotalHanayomePower] = useState(0)
     useEffect(() => {
