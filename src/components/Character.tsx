@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
 import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
-import { tr } from 'framer-motion/client'
 
 type Props = {
     characterNumber: number
@@ -11,7 +10,7 @@ type Props = {
 }
 const Character = (props: Props) => {
 
-    const LaneNumber = useMemo(() =>    // characterNumber -> [0-4]
+    const laneNumber = useMemo(() =>    // characterNumber -> [0-4]
         props.myArea ? props.characterNumber : props.characterNumber - 5,
         [props.characterNumber, props.myArea]
     );
@@ -35,7 +34,7 @@ const Character = (props: Props) => {
 
     const [isApproach, setIsApproach] = useState(false) // このコンポーネントがアプローチ中か
     useEffect(() => {
-        if (approachStates[LaneNumber]) {
+        if (approachStates[laneNumber]) {
             setIsApproach(true)
         } else {
             setIsApproach(false)
@@ -68,7 +67,7 @@ const Character = (props: Props) => {
             //     const newArray = [...approachedBy]
 
             //     newArray.forEach((arr) => {
-            //         arr[LaneNumber] = false
+            //         arr[laneNumber] = false
             //     })
 
             //     return newArray
@@ -77,7 +76,7 @@ const Character = (props: Props) => {
             const newApproachedBy = () => {
                 return approachedBy.map(arr => {
                     const newArr = [...arr]; // 内部配列をコピー
-                    newArr[LaneNumber] = false; // LaneNumber 番目を false にする
+                    newArr[laneNumber] = false; // laneNumber 番目を false にする
                     return newArr;
                 });
             };
@@ -87,8 +86,8 @@ const Character = (props: Props) => {
 
         }
 
-        if (approachStates[LaneNumber]) {
-            toggleBooleanAtIndex(LaneNumber, setApproachStates) // approachStates の LaneNumber のアプローチ中を反転
+        if (approachStates[laneNumber]) {
+            toggleBooleanAtIndex(laneNumber, setApproachStates) // approachStates の laneNumber のアプローチ中を反転
         }
     }
 
@@ -114,7 +113,7 @@ const Character = (props: Props) => {
                         onClick={() => { setAddHanayomePower(0) }}
                     >
                         {addHanayomePower}
-                        {/* {LaneNumber} */}
+                        {/* {laneNumber} */}
                     </div>
                 </div>
                 <button
@@ -127,7 +126,7 @@ const Character = (props: Props) => {
                     h-1/3 flex justify-center items-center back-slate-500 
                     `}
                 style={{    // レーン番号によって approachStates のカラーを変更
-                    backgroundColor: (isSelectApproach || approachStates[LaneNumber]) ? hanayomeColor[LaneNumber] : ''
+                    backgroundColor: (isSelectApproach || approachStates[laneNumber]) ? hanayomeColor[laneNumber] : ''
                 }}
                 onClick={onClickTotal}
             >
