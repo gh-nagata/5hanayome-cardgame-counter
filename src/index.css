@@ -9,6 +9,14 @@ body,
 #root {
   height: 100%;
   overflow: hidden;
+  user-select: none;
+  /* すべてのブラウザで有効 */
+  -webkit-user-select: none;
+  /* Safari, iOS */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE/Edge */
 }
 
 /* .main {

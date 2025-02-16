@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
+import useWakeLock from "../hooks/useWakeLock";
 
 type Props = {
     className?: string;
 };
 
 const SidePanel = (props: Props) => {
-    const [mode, setMode] = useState('coin');
     const [time, setTime] = useState(20 * 60); // 20分（秒単位）
     const [isRunning, setIsRunning] = useState(false);
     const [startTime, setStartTime] = useState<number | null>(null);
-    const [turn, setTurn] = useState<"先攻" | "後攻" | null>(null);
-    const [flipping, setFlipping] = useState(false);
-    const [rotation, setRotation] = useState(0);
+    const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+
+    // Wake Lock API (Android用)
+    const { requestWakeLock, releaseWakeLock } = useWakeLock();
 
     useEffect(() => {
         if (!isRunning) return;
@@ -42,28 +43,47 @@ const SidePanel = (props: Props) => {
     const handleStart = () => {
         setIsRunning(true);
         setStartTime(Date.now() - (20 * 60 - time) * 1000);
+
+        // ✅ **iPhone向け：Web Audio API で無音再生**
+        if (!audioContext) {
+            const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+            if (!AudioContextClass) {
+                console.error("Web Audio API がサポートされていません");
+                return;
+            }
+
+            const ctx = new AudioContextClass();
+            const oscillator = ctx.createOscillator();
+            const gainNode = ctx.createGain();
+
+            oscillator.type = "sine";
+            oscillator.frequency.value = 20; // 低周波音（人間にはほぼ聞こえない）
+            gainNode.gain.value = 0.001; // 極小の音量（完全な無音はNG）
+
+            oscillator.connect(gainNode);
+            gainNode.connect(ctx.destination);
+            oscillator.start();
+
+            setAudioContext(ctx);
+        }
+
+        // ✅ **Android向け：Wake Lock API をリクエスト**
+        requestWakeLock();
     };
 
     const handleReset = () => {
         setIsRunning(false);
         setTime(20 * 60);
         setStartTime(null);
-    };
 
-    const flipCoin = () => {
-        if (flipping) return;
+        // Web Audio API の無音再生を停止
+        if (audioContext) {
+            audioContext.close();
+            setAudioContext(null);
+        }
 
-        setFlipping(true);
-        setTurn(null);
-        setRotation(0);
-        setTimeout(() => {
-            setRotation(1080);
-        }, 10);
-
-        setTimeout(() => {
-            setTurn(Math.random() < 0.5 ? "先攻" : "後攻");
-            setFlipping(false);
-        }, 1500);
+        // Wake Lock API の解除
+        releaseWakeLock();
     };
 
     const formatTime = (seconds: number) => {
@@ -76,29 +96,21 @@ const SidePanel = (props: Props) => {
     };
 
     return (
-        <div className={`${props.className}  text-white flex flex-col items-center justify-between`}>
-            {/* <div className="flex flex-col items-center">
-                <div className="w-12 h-8 font-bold text-xs bg-stone-950 border border-white m-2 rounded-lg flex items-center justify-center"
-                    onClick={() => { if (window.confirm("ページを更新しますか？")) window.location.reload(); }}>
-                    リロード
-                </div>
-                {(mode === 'coin') && <div className="w-12 h-8 bg-white text-black rounded-lg m-2 flex items-center justify-center font-medium" onClick={() => { setMode('time'); }}>コイン</div>}
-                {(mode === 'time') && <div className="w-12 h-8 bg-white text-black rounded-lg m-2 flex items-center justify-center font-medium" onClick={() => { setMode('coin'); }}>タイム</div>}
-                {(mode === 'coin') && <div className="coin m-4 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white text-lg cursor-pointer font-bold"
-                    style={{ transform: `rotateX(${rotation}deg)`, transition: rotation ? "transform 1.5s linear" : "none" }}
-                    onClick={flipCoin}>
-                    {flipping ? "" : turn ?? ""}
-                </div>}
+        <div className={`${props.className} text-white flex flex-col justify-end`}>
+            <div
+                className={`
+                text-lg font-bold w-12 mx-auto flex justify-center items-center h-9 wide:mb-12
+                ${time < 0 ? "text-red-500" : ""}`}
+                onClick={() => {
+                    if (!isRunning) {
+                        handleStart();
+                    } else {
+                        if (window.confirm("対戦を終了しますか？")) window.location.reload();
+                    }
+                }}
+            >
+                {formatTime(time)}
             </div>
-            {(mode === 'time') && <>
-                <div className={`text-lg font-bold ${time < 0 ? "text-red-500" : ""}`}>
-                    {formatTime(time)}
-                </div>
-                <div className="flex flex-col space-y-2 mb-20">
-                    <button onClick={handleStart} className="my-16 bg-blue-500 text-white rounded hover:bg-blue-600 h-8 w-24 rotate-90">スタート</button>
-                    <button onClick={handleReset} className="my-20 bg-red-500 text-white rounded hover:bg-red-600 h-8 w-24 rotate-90">リセット</button>
-                </div>
-            </>} */}
         </div>
     );
 };
