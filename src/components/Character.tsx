@@ -97,9 +97,9 @@ const Character = (props: Props) => {
                     const value = Number(e.target.value)
                     if (value === -1) {
                         if ((turnPlayer === 'my' && props.myArea) || (turnPlayer === 'opponent' && !props.myArea)) {
-                            setSelectedApproach(null)
-                            setApproachStates([false, false, false, false, false,])
-                            setApproachedBy([
+                            setSelectedApproach(null)   // 選択を解除
+                            setApproachStates([false, false, false, false, false,]) // アプローチを解除
+                            setApproachedBy([    // アプローチを解除
                                 [false, false, false, false, false,],
                                 [false, false, false, false, false,],
                                 [false, false, false, false, false,],

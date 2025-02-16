@@ -1,4 +1,4 @@
-import React, { JSX, useState } from 'react'
+import React, { JSX, useEffect, useState } from 'react'
 import Hero from './Hero'
 
 type Props = {
@@ -7,11 +7,17 @@ type Props = {
 }
 const HeroLane = (props: Props) => {
 
-    const [hero, setHero] = useState<null | JSX.Element>(<Hero laneNumber={props.laneNumber} />)
+    const [hero, setHero] = useState<null | JSX.Element>(null)
+    useEffect(() => {
+
+        setHero(<Hero laneNumber={props.laneNumber} setHero={setHero} className={props.className} />)
+
+    }, [props.laneNumber, props.className])
 
     return (
         <div
             className='HeroLane relative bg-green-100 w-1/5 h-full'
+            onClick={() => { setHero(<Hero laneNumber={props.laneNumber} setHero={setHero} className={props.className} />) }}
         >
             <span className='absolute inset-0 flex justify-center items-center text-gray-500 text-base z-0'>
                 主人公レーン

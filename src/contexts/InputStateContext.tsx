@@ -80,15 +80,15 @@ export const InputStateProvider = (props: Props) => {
 
     useEffect(() => {
 
-        console.log('selectedApproachState : ' + selectedApproachState[0]);
-        console.log('turnPlayer : ' + turnPlayer);
+        // console.log('selectedApproachState : ' + selectedApproachState[0]);
+        // console.log('turnPlayer : ' + turnPlayer);
 
-        myApproachStates[0].forEach((isApproach, i) => {
-            console.log('myApproach ' + i + ' : ' + isApproach);
-        })
-        opponentApproachStates[0].forEach((isApproach, i) => {
-            console.log('opponentApproach ' + i + ' : ' + isApproach);
-        })
+        // myApproachStates[0].forEach((isApproach, i) => {
+        //     console.log('myApproach ' + i + ' : ' + isApproach);
+        // })
+        // opponentApproachStates[0].forEach((isApproach, i) => {
+        //     console.log('opponentApproach ' + i + ' : ' + isApproach);
+        // })
         // approachedByStates[0].forEach((isApproach, i) => {
         //     console.log('approachedLane ' + i + ' : ' + isApproach);
         // })
@@ -96,7 +96,7 @@ export const InputStateProvider = (props: Props) => {
         // console.log(selectHeroState[0]);
 
         return () => {
-            console.clear()
+            // console.clear()
         }
     }, [selectedApproachState[0], ...myApproachStates[0], ...opponentApproachStates[0], ...[...approachedByStates[0]], ...selectHeroState[0]])
 

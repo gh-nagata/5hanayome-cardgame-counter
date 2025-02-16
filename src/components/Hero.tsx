@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { JSX, useEffect, useMemo, useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
 import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
@@ -7,6 +7,7 @@ import { useRequiredHanayomePower } from '../contexts/RequiredHanayomePowerConte
 type Props = {
     laneNumber: number,
     className?: string,
+    setHero: React.Dispatch<React.SetStateAction<JSX.Element | null>>
 }
 const Hero = (props: Props) => {
 
@@ -14,8 +15,6 @@ const Hero = (props: Props) => {
     const { requiredHanayomePower, setRequiredHanayomePower } = useRequiredHanayomePower()
 
     const [selectedApproach, setSelectedApproach] = selectedApproachState
-    const [myApproach, setMyApproach] = myApproachStates
-    const [opponentApproach, setOpponentApproach] = opponentApproachStates
 
     const [selectHero, setSelectHero] = selectHeroState
 
@@ -110,12 +109,34 @@ const Hero = (props: Props) => {
                 className="z-10 w-full h-full text-center appearance-none bg-transparent"
                 value={requiredHanayomePower[props.laneNumber]}
                 onChange={(e) => {
-                    // setRequiredHanayomePower(Number(e.target.value))
-                    const newRequiredHanayomePower = [...requiredHanayomePower]
-                    newRequiredHanayomePower[props.laneNumber] = Number(e.target.value)
-                    setRequiredHanayomePower(newRequiredHanayomePower)
+
+                    const value = Number(e.target.value)
+
+                    if (value === -1) {
+                        // 10 に戻す
+                        const newRequiredHanayomePower = [...requiredHanayomePower]
+                        newRequiredHanayomePower[props.laneNumber] = 10
+                        // console.log(newRequiredHanayomePower[props.laneNumber])
+                        setRequiredHanayomePower(newRequiredHanayomePower)
+                        // アプローチを解除
+                        setApproachStates([false, false, false, false, false,]) // アプローチを解除
+                        setApproachedBy([    // アプローチを解除
+                            [false, false, false, false, false,],
+                            [false, false, false, false, false,],
+                            [false, false, false, false, false,],
+                            [false, false, false, false, false,],
+                            [false, false, false, false, false,],
+                        ])
+                        props.setHero(null)
+                    }else{
+                        const newRequiredHanayomePower = [...requiredHanayomePower]
+                        newRequiredHanayomePower[props.laneNumber] = Number(value)
+                        setRequiredHanayomePower(newRequiredHanayomePower)
+                    }
+
                 }}
             >
+                <option value={-1}>-</option>
                 {[...Array(5)].map((_, i) => (
                     <option key={i} value={i + 6}>{i + 6}</option>
                 ))}
