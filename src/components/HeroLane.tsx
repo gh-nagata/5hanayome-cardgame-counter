@@ -1,9 +1,13 @@
 import React, { JSX, useState } from 'react'
 import Hero from './Hero'
 
-const HeroLane = () => {
+type Props = {
+    laneNumber: number,
+    className?: string,
+}
+const HeroLane = (props: Props) => {
 
-    const [hero, setHero] = useState<null | JSX.Element>(<Hero />)
+    const [hero, setHero] = useState<null | JSX.Element>(<Hero laneNumber={props.laneNumber} />)
 
     return (
         <div

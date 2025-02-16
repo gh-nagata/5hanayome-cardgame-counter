@@ -16,7 +16,7 @@ const PlayArea = (props: Props) => {
         <CharacterLane key={i} characterNumber={i} MyArea={true} />
     ))
     const HeroLanes = [...Array(5)].map((_, i) => (
-        <HeroLane key={i} />
+        <HeroLane key={i} laneNumber={i} />
     ))
 
     return (

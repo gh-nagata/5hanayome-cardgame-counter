@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
 import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
+import { tr } from 'framer-motion/client'
 
 type Props = {
     characterNumber: number
@@ -15,13 +16,13 @@ const Character = (props: Props) => {
         [props.characterNumber, props.myArea]
     );
 
-    const { selectedApproachState, approachStates } = useInputState()
-
-    // const approachStates  = props.myArea ? myApproachStates : opponentApproachStates;
-
+    const { selectedApproachState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer } = useInputState()
 
     const [selectedApproach, setSelectedApproach] = selectedApproachState
-    const [isSelectApproach, setIsSelectApproach] = useState(false)
+
+    const [approachedBy, setApproachedBy] = approachedByStates
+
+    const [isSelectApproach, setIsSelectApproach] = useState(false) // このコンポーネントがアプローチ選択中か
     useEffect(() => {
         if (selectedApproach === props.characterNumber) {
             setIsSelectApproach(true);
@@ -30,7 +31,19 @@ const Character = (props: Props) => {
         }
     }, [selectedApproach]);
 
-    const [isApproach, setIsApproachState] = approachStates 
+    const [approachStates, setApproachStates] = props.myArea ? myApproachStates : opponentApproachStates    // [ bool, bool, bool, bool, bool, ]
+
+    const [isApproach, setIsApproach] = useState(false) // このコンポーネントがアプローチ中か
+    useEffect(() => {
+        if (approachStates[LaneNumber]) {
+            setIsApproach(true)
+        } else {
+            setIsApproach(false)
+        }
+        return () => {
+
+        }
+    }, [...approachStates])
 
     const [hanayomePower, setHanayomePower] = useState(0)
     const [addHanayomePower, setAddHanayomePower] = useState(0)
@@ -46,14 +59,36 @@ const Character = (props: Props) => {
     }, [hanayomePower, addHanayomePower])
 
     const onClickTotal = () => {
-        if (selectedApproach !== props.characterNumber && !isApproach[props.characterNumber]) { // 現在アプローチ選択中ではない && アプローチ中ではない
+        if (!isSelectApproach && !isApproach) { // 現在アプローチ選択中ではない && アプローチ中ではない
             setSelectedApproach(props.characterNumber)  // キャラクターをアプローチ選択中にする
         } else {
             setSelectedApproach(null)   // アプローチ選択中を null
+
+            // const newApproachedBy = () => {
+            //     const newArray = [...approachedBy]
+
+            //     newArray.forEach((arr) => {
+            //         arr[LaneNumber] = false
+            //     })
+
+            //     return newArray
+            // }
+            // setApproachedBy(newApproachedBy())
+            const newApproachedBy = () => {
+                return approachedBy.map(arr => {
+                    const newArr = [...arr]; // 内部配列をコピー
+                    newArr[LaneNumber] = false; // LaneNumber 番目を false にする
+                    return newArr;
+                });
+            };
+            
+            setApproachedBy(newApproachedBy());
+            
+
         }
 
-        if (isApproach[props.characterNumber]) {
-            toggleBooleanAtIndex(props.characterNumber, setIsApproachState) // props.characterNumber のアプローチ中を反転
+        if (approachStates[LaneNumber]) {
+            toggleBooleanAtIndex(LaneNumber, setApproachStates) // approachStates の LaneNumber のアプローチ中を反転
         }
     }
 
@@ -79,6 +114,7 @@ const Character = (props: Props) => {
                         onClick={() => { setAddHanayomePower(0) }}
                     >
                         {addHanayomePower}
+                        {/* {LaneNumber} */}
                     </div>
                 </div>
                 <button
@@ -90,8 +126,8 @@ const Character = (props: Props) => {
                 className={`
                     h-1/3 flex justify-center items-center back-slate-500 
                     `}
-                style={{    // レーン番号によって isApproach のカラーを変更
-                    backgroundColor: (isSelectApproach || isApproach[props.characterNumber]) ? hanayomeColor[LaneNumber] : ''
+                style={{    // レーン番号によって approachStates のカラーを変更
+                    backgroundColor: (isSelectApproach || approachStates[LaneNumber]) ? hanayomeColor[LaneNumber] : ''
                 }}
                 onClick={onClickTotal}
             >
