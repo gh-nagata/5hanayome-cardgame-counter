@@ -1,8 +1,6 @@
 import React, { JSX, useEffect, useMemo, useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
-// import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
-import { useRequiredHanayomePower } from '../contexts/RequiredHanayomePowerContext'
 import { useHeroContext } from '../contexts/HeroContext'
 import { useCharacterContext } from '../contexts/CharacterContext'
 import { resetHeroStates, updateHeroStates } from '../utils/heroStatesHandler'
