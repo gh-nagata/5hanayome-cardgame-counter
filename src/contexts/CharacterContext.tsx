@@ -47,23 +47,23 @@ export const CharacterProvider = (props: Props) => {
     }, [turnPlayer]);
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        myCharacterStates[0].forEach((character, i) => {
-            console.log(
-                i + ': power:' + character.hanayomePower + ' addPower:' + character.addHanayomePower + ' isSelect:' + ' approach:' + character.approachHero
-            )
-        })
-        opponentCharacterStates[0].forEach((character, i) => {
-            console.log(
-                i + ': power:' + character.hanayomePower + ' addPower:' + character.addHanayomePower + ' isSelect:' + ' approach:' + character.approachHero
-            )
-        })
+    //     myCharacterStates[0].forEach((character, i) => {
+    //         console.log(
+    //             i + ': power:' + character.hanayomePower + ' addPower:' + character.addHanayomePower + ' isSelect:' + ' approach:' + character.approachHero
+    //         )
+    //     })
+    //     opponentCharacterStates[0].forEach((character, i) => {
+    //         console.log(
+    //             i + ': power:' + character.hanayomePower + ' addPower:' + character.addHanayomePower + ' isSelect:' + ' approach:' + character.approachHero
+    //         )
+    //     })
 
-        return () => {
-            console.clear()
-        }
-    }, [myCharacterStates[0], opponentCharacterStates[0]])
+    //     return () => {
+    //         console.clear()
+    //     }
+    // }, [myCharacterStates[0], opponentCharacterStates[0]])
 
 
     return (

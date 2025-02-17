@@ -140,7 +140,8 @@ const Character = (props: Props) => {
             </div>
             <select
                 className='
-                w-full wide:h-1/3 text-center appearance-none
+                w-full bg-slate-100 text-center appearance-none
+                wide:h-1/3 
                 tall:h-12
                 '
                 style={{ textAlignLast: 'center' }}  // iPhoneで中央揃え
