@@ -107,6 +107,7 @@ const Hero = (props: Props) => {
             </div>) : (
             <select
                 className="z-10 w-full h-full text-center appearance-none bg-transparent"
+                style={{ textAlignLast: 'center' }}  // iPhoneで中央揃え
                 value={requiredHanayomePower[props.laneNumber]}
                 onChange={(e) => {
 

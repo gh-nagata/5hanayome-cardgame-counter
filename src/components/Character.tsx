@@ -123,9 +123,10 @@ const Character = (props: Props) => {
             </div>
             <select
                 className='
-                w-full wide:h-1/3 text-center appearance-none flex justify-center content-center
+                w-full wide:h-1/3 text-center appearance-none
                 tall:h-12
                 '
+                style={{ textAlignLast: 'center' }}  // iPhoneで中央揃え
                 value={hanayomePower}
                 onChange={(e) => {
                     const value = Number(e.target.value)
