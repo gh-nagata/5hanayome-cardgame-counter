@@ -10,12 +10,10 @@ import { RequiredHanayomePowerProvider } from './contexts/RequiredHanayomePowerC
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <DndProvider onDragEnd={(e) => console.log('hello')}>
-      <InputStateProvider>
-        <RequiredHanayomePowerProvider>
-          <App />
-        </RequiredHanayomePowerProvider>
-      </InputStateProvider>
-    </DndProvider>
+    <InputStateProvider>
+      <RequiredHanayomePowerProvider>
+        <App />
+      </RequiredHanayomePowerProvider>
+    </InputStateProvider>
   </StrictMode>,
 )
