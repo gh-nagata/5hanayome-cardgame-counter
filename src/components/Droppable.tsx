@@ -10,9 +10,10 @@ type DroppableProps = {
      * isOverが true の時のスタイル
      */
     isOverAddClass?: string;
+    className?: string
 };
 
-export default function Droppable({ children, id, isOverAddClass }: DroppableProps) {
+export default function Droppable({ children, id, isOverAddClass, className }: DroppableProps) {
 
     /**
      * setNodeRef ドロップ可能なエリアの DOM ノードを参照
@@ -23,7 +24,7 @@ export default function Droppable({ children, id, isOverAddClass }: DroppablePro
     });
 
     return (
-        <div ref={setNodeRef} className={isOver && isOverAddClass ? isOverAddClass : ""}>
+        <div ref={setNodeRef} className={`Droppable ${className} ${isOver && isOverAddClass ? isOverAddClass : ""}`}>
             {children}
         </div>
     );

@@ -3,6 +3,7 @@ import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
 import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
 import { useRequiredHanayomePower } from '../contexts/RequiredHanayomePowerContext'
+import Draggable from './Draggable'
 
 type Props = {
     characterNumber: number
@@ -90,6 +91,7 @@ const Character = (props: Props) => {
 
     return (
         // <div className='Character flex flex-col w-full h-full bg-white font-bold'>
+        // <Draggable id={'character'}>
         <div className={`Character flex  w-full h-full bg-white font-bold ${props.myArea ? 'flex-col-reverse' : 'flex-col'}`}>
 
             <div className='
@@ -165,6 +167,7 @@ const Character = (props: Props) => {
                 {totalHanayomePower}
             </div>
         </div>
+        //  </Draggable > 
     )
 }
 
