@@ -4,6 +4,8 @@ import { useInputState } from '../contexts/InputStateContext'
 import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
 import { useRequiredHanayomePower } from '../contexts/RequiredHanayomePowerContext'
 import Draggable from './Draggable'
+import { useDraggable } from '@dnd-kit/core'
+import { CSS } from '@dnd-kit/utilities'
 
 type Props = {
     characterNumber: number
@@ -89,10 +91,30 @@ const Character = (props: Props) => {
         }
     }
 
+    /**
+     * attributes：Draggableアイテムに適した一連のデフォルト属性を提供してくれる
+     * listeners：ドラッグ操作のイベントリスナーを含むため、操作したいコンポーネントに登録する
+     */
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+        id: props.characterNumber.toString(),
+    });
+    /**
+     * Draggableアイテムが選択されると、画面上でアイテムを移動するために必要な座標が設定される
+     */
+    const style = {
+        transform: CSS.Translate.toString(transform),
+    }
+
     return (
         // <div className='Character flex flex-col w-full h-full bg-white font-bold'>
         // <Draggable id={'character'}>
-        <div className={`Character flex  w-full h-full bg-white font-bold ${props.myArea ? 'flex-col-reverse' : 'flex-col'}`}>
+        <div
+            className={`Character flex  w-full h-full bg-white font-bold ${props.myArea ? 'flex-col-reverse' : 'flex-col'}`}
+            ref={setNodeRef}
+            {...listeners}
+            {...attributes}
+            style={style}
+        >
 
             <div className='
             wide:h-1/3 flex items-center 
