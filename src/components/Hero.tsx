@@ -3,6 +3,7 @@ import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
 import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
 import { useRequiredHanayomePower } from '../contexts/RequiredHanayomePowerContext'
+import { useHeroContext } from '../contexts/HeroContext'
 
 type Props = {
     laneNumber: number,
@@ -14,19 +15,15 @@ const Hero = (props: Props) => {
     const { selectedApproachState, selectHeroState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer } = useInputState()
     const { requiredHanayomePower, setRequiredHanayomePower } = useRequiredHanayomePower()
 
+    const { heroStates } = useHeroContext()  // new context
+    const [heroes, setHeroes] = heroStates
+
     const [selectedApproach, setSelectedApproach] = selectedApproachState
 
     const [selectHero, setSelectHero] = selectHeroState
 
 
     const [approachStates, setApproachStates] = (turnPlayer === 'my') ? myApproachStates : opponentApproachStates    // [ bool, bool, bool, bool, bool, ]
-    // const [approachStates, setApproachStates] = useMemo(() => {
-    //     if (turnPlayer === 'my') {
-    //         return myApproachStates
-    //     } else {
-    //         return opponentApproachStates
-    //     }
-    // }, [turnPlayer])
 
     const [approachedBy, setApproachedBy] = approachedByStates
     const whoApproachFunction = (selectedApproachState: null | number) => {

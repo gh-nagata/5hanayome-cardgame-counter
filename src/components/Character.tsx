@@ -6,6 +6,8 @@ import { useRequiredHanayomePower } from '../contexts/RequiredHanayomePowerConte
 import Draggable from './Draggable'
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
+import { useCharacterContext } from '../contexts/CharacterContext'
+// import { useCharacter } from '../contexts/CharacterContext'
 
 type Props = {
     characterNumber: number
@@ -22,6 +24,9 @@ const Character = (props: Props) => {
 
     const { selectedApproachState, selectHeroState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer } = useInputState()
     const { requiredHanayomePower, setRequiredHanayomePower } = useRequiredHanayomePower()
+    const { myCharacterStates, opponentCharacterStates } = useCharacterContext()
+
+    const [characterStates, setCharacterStates] = props.myArea ? myCharacterStates : opponentCharacterStates
 
     const [selectedApproach, setSelectedApproach] = selectedApproachState
     const [selectedHero, setSelectedHero] = selectHeroState
