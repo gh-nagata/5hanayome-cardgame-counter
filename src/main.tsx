@@ -11,9 +11,9 @@ import { RequiredHanayomePowerProvider } from './contexts/RequiredHanayomePowerC
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <InputStateProvider>
-      <RequiredHanayomePowerProvider>
+      {/* <RequiredHanayomePowerProvider> */}
         <App />
-      </RequiredHanayomePowerProvider>
+      {/* </RequiredHanayomePowerProvider> */}
     </InputStateProvider>
   </StrictMode>,
 )

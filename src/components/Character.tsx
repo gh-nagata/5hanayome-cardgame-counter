@@ -1,13 +1,12 @@
 import React, { JSX, useEffect, useMemo, useState } from 'react'
 import hanayomeColor from '../libs/hanayomeColor.json'
 import { useInputState } from '../contexts/InputStateContext'
-import toggleBooleanAtIndex from '../utils/toggleBooleanAtIndex'
-import { useRequiredHanayomePower } from '../contexts/RequiredHanayomePowerContext'
 import Draggable from './Draggable'
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { useCharacterContext } from '../contexts/CharacterContext'
-// import { useCharacter } from '../contexts/CharacterContext'
+import { useHeroContext } from '../contexts/HeroContext'
+import { updateCharacterStates } from '../utils/characterStatesHandler'
 
 type Props = {
     characterNumber: number
@@ -22,77 +21,43 @@ const Character = (props: Props) => {
         [props.characterNumber, props.myArea]
     );
 
-    const { selectedApproachState, selectHeroState, myApproachStates, opponentApproachStates, approachedByStates, turnPlayer } = useInputState()
-    const { requiredHanayomePower, setRequiredHanayomePower } = useRequiredHanayomePower()
-    const { myCharacterStates, opponentCharacterStates } = useCharacterContext()
+    const { selectedApproachState, turnPlayer } = useInputState()
+    // const { requiredHanayomePower, setRequiredHanayomePower } = useRequiredHanayomePower()
 
-    const [characterStates, setCharacterStates] = props.myArea ? myCharacterStates : opponentCharacterStates
+    const { myCharacterStates, opponentCharacterStates } = useCharacterContext()    // new context
+    const { heroStates } = useHeroContext()  // new context
+    const [heroes, setHeroes] = heroStates
+
+    // `[characters, setCharacters]` を `turnPlayer` に応じて切り替え
+    const characterStates = props.myArea ? myCharacterStates : opponentCharacterStates;
+    const [characters, setCharacters] = characterStates
+
 
     const [selectedApproach, setSelectedApproach] = selectedApproachState
-    const [selectedHero, setSelectedHero] = selectHeroState
 
-    const [approachedBy, setApproachedBy] = approachedByStates
-
-    const [approachStates, setApproachStates] = props.myArea ? myApproachStates : opponentApproachStates    // [ bool, bool, bool, bool, bool, ]
-
-    const [isSelectApproach, setIsSelectApproach] = useState(false) // このコンポーネントがアプローチ選択中か
-    useEffect(() => {
-        if (selectedApproach === props.characterNumber) {
-            setIsSelectApproach(true);
-        } else {
-            setIsSelectApproach(false);
-        }
-    }, [selectedApproach]);
-
-    const [isApproach, setIsApproach] = useState(false) // このコンポーネントがアプローチ中か
-    useEffect(() => {
-        if (approachStates[laneNumber]) {
-            setIsApproach(true)
-        } else {
-            setIsApproach(false)
-        }
-    }, [...approachStates])
-
-    const [hanayomePower, setHanayomePower] = useState(10)
-    const [addHanayomePower, setAddHanayomePower] = useState(0)
     const [totalHanayomePower, setTotalHanayomePower] = useState(0)
     useEffect(() => {
-        if (!isApproach) {
-            setTotalHanayomePower(hanayomePower + addHanayomePower)
+        if (characters[laneNumber].approachHero === null) {
+            setTotalHanayomePower(characters[laneNumber].hanayomePower + characters[laneNumber].addHanayomePower)
         } else {
-            if (selectedHero[laneNumber] !== null) {
-                setTotalHanayomePower(hanayomePower + addHanayomePower)
-                setTotalHanayomePower(hanayomePower + addHanayomePower - requiredHanayomePower[selectedHero[laneNumber]])
-            }
+            setTotalHanayomePower(
+                characters[laneNumber].hanayomePower + characters[laneNumber].addHanayomePower - heroes[characters[laneNumber].approachHero].requiredHanayomePower
+            )
         }
         return () => {
             setTotalHanayomePower(0)
         }
-    }, [hanayomePower, addHanayomePower, isApproach, ...requiredHanayomePower])
+    }, [characters[laneNumber].hanayomePower, characters[laneNumber].addHanayomePower, characters[laneNumber].approachHero, heroes])  // heroes は怪しい
 
     const onClickTotal = () => {
-        if (!isSelectApproach && !isApproach) { // 現在アプローチ選択中ではない && アプローチ中ではない
-            setSelectedApproach(props.characterNumber)  // キャラクターをアプローチ選択中にする
+        // setSelectedApproach(props.characterNumber)
+        if ((selectedApproach === null) || (selectedApproach !== props.characterNumber)) { // 現在アプローチ選択中ではない ||  違うとこを選択
+            setSelectedApproach(props.characterNumber)
+        } else if (characters[laneNumber].approachHero !== null) {
+            setSelectedApproach(null)   // アプローチ選択中を null
+            updateCharacterStates({ characterStates: characterStates, lane: laneNumber, key: 'approachHero', value: null })
         } else {
             setSelectedApproach(null)   // アプローチ選択中を null
-
-            const newApproachedBy = () => {
-                return approachedBy.map(arr => {
-                    const newArr = [...arr]; // 内部配列をコピー
-                    newArr[laneNumber] = false; // laneNumber 番目を false にする
-                    return newArr;
-                });
-            };
-
-            setApproachedBy(newApproachedBy());
-
-            const newSelectedHero = [...selectedHero]
-            newSelectedHero[laneNumber] = null
-            setSelectedHero(newSelectedHero)
-        }
-
-        if (approachStates[laneNumber]) {
-            toggleBooleanAtIndex(laneNumber, setApproachStates) // approachStates の laneNumber のアプローチ中を反転
         }
     }
 
@@ -121,33 +86,56 @@ const Character = (props: Props) => {
             style={style}
         >
 
-            <div className='
+            <div className={`
             wide:h-1/3 flex items-center 
-            tall:flex-col-reverse tall:flex-1 tall:max-h-36
-            '>
+             tall:flex-1 tall:max-h-36
+            ${props.myArea ? 'tall:flex-col-reverse' : 'tall:flex-col'}
+            `}>
                 <button
                     className={`
                     w-1/4 h-full bg-blue-500 text-white
                     ${props.myArea ? 'wide:rounded-tr-lg ' : 'wide:rounded-br-lg '}
-                    tall:w-full tall:h-1/3 tall:rounded-t-lg
+                    tall:w-full tall:h-1/3
                     `}
-                    onClick={() => { setAddHanayomePower((prev) => prev - 1) }}
+                    onClick={() =>
+                        updateCharacterStates({
+                            characterStates: characterStates,
+                            lane: laneNumber, // 変更したいキャラクターのインデックス
+                            key: "addHanayomePower",
+                            value: characters[laneNumber].addHanayomePower - 1,
+                        })
+                    }
+
                 >-</button >
                 <div className='flex-1 w-full h-full flex justify-center items-center tall:h-1/3'>
                     <div
                         className=' flex justify-center items-center text-base w-1/2 h-4/5 '
-                        onClick={() => { setAddHanayomePower(0) }}
+                        onClick={() =>
+                            updateCharacterStates({
+                                characterStates: characterStates,
+                                lane: laneNumber,
+                                key: "addHanayomePower",
+                                value: 0,
+                            })
+                        }
                     >
-                        {addHanayomePower}
+                        {characters[laneNumber].addHanayomePower}
                     </div>
                 </div>
                 <button
                     className={`
                         w-1/4 h-full bg-red-500 text-white
                         ${props.myArea ? 'wide:rounded-tl-lg ' : 'wide:rounded-bl-lg'}
-                        tall:w-full tall:h-1/3 tall:rounded-b-lg
+                        tall:w-full tall:h-1/3
                         `}
-                    onClick={() => setAddHanayomePower((prev) => prev + 1)}
+                    onClick={() =>
+                        updateCharacterStates({
+                            characterStates: characterStates,
+                            lane: laneNumber,
+                            key: "addHanayomePower",
+                            value: characters[laneNumber].addHanayomePower + 1,
+                        })
+                    }
                 >+</button>
             </div>
             <select
@@ -156,28 +144,27 @@ const Character = (props: Props) => {
                 tall:h-12
                 '
                 style={{ textAlignLast: 'center' }}  // iPhoneで中央揃え
-                value={hanayomePower}
+                value={characters[laneNumber].hanayomePower}
                 onChange={(e) => {
                     const value = Number(e.target.value)
                     if (value === -1) {
                         if ((turnPlayer === 'my' && props.myArea) || (turnPlayer === 'opponent' && !props.myArea)) {
                             setSelectedApproach(null)   // 選択を解除
-                            setApproachStates([false, false, false, false, false,]) // アプローチを解除
-                            setApproachedBy([    // アプローチを解除
-                                [false, false, false, false, false,],
-                                [false, false, false, false, false,],
-                                [false, false, false, false, false,],
-                                [false, false, false, false, false,],
-                                [false, false, false, false, false,],
-                            ])
+                            updateCharacterStates({ characterStates: characterStates, lane: laneNumber, key: 'approachHero', value: null }) // アプローチを解除
                         }
                         props.setCharacter(null)
+                    } else {
+                        updateCharacterStates({
+                            characterStates: characterStates,
+                            lane: laneNumber,
+                            key: "hanayomePower",
+                            value: value,
+                        })
                     }
-                    setHanayomePower(value)
                 }}
             >
                 <option value={-1}>-</option>
-                {[...Array(101)].map((_, i) => (
+                {[...Array(100)].map((_, i) => (
                     <option key={i} value={i}>{i}</option>
                 ))}
             </select>
@@ -187,7 +174,7 @@ const Character = (props: Props) => {
                     tall:h-12
                     `}
                 style={{    // レーン番号によって approachStates のカラーを変更
-                    backgroundColor: (isSelectApproach || isApproach) ? hanayomeColor[laneNumber] : ''
+                    backgroundColor: ((selectedApproach === props.characterNumber) || (characters[laneNumber].approachHero !== null)) ? hanayomeColor[laneNumber] : ''
                 }}
                 onClick={onClickTotal}
             >
