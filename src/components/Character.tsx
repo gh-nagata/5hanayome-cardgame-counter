@@ -6,7 +6,7 @@ import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { useCharacterContext } from '../contexts/CharacterContext'
 import { useHeroContext } from '../contexts/HeroContext'
-import { updateCharacterStates } from '../utils/characterStatesHandler'
+import { resetCharacterStates, updateCharacterStates } from '../utils/characterStatesHandler'
 
 type Props = {
     characterNumber: number
@@ -151,6 +151,7 @@ const Character = (props: Props) => {
                         if ((turnPlayer === 'my' && props.myArea) || (turnPlayer === 'opponent' && !props.myArea)) {
                             setSelectedApproach(null)   // 選択を解除
                             updateCharacterStates({ characterStates: characterStates, lane: laneNumber, key: 'approachHero', value: null }) // アプローチを解除
+                            resetCharacterStates({ characterStates: characterStates, lane: laneNumber })    // デフォルト値にリセット
                         }
                         props.setCharacter(null)
                     } else {

@@ -63,7 +63,7 @@ export const CharacterProvider = (props: Props) => {
         return () => {
             console.clear()
         }
-    }, [...myCharacterStates[0], ...opponentCharacterStates[0]])
+    }, [myCharacterStates[0], opponentCharacterStates[0]])
 
 
     return (
