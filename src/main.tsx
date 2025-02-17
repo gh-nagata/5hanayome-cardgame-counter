@@ -6,7 +6,6 @@ import './index.css'
 import App from './App.tsx'
 import { DndProvider } from './contexts/DndContext.tsx'
 import { InputStateProvider } from './contexts/InputStateContext.tsx'
-import { RequiredHanayomePowerProvider } from './contexts/RequiredHanayomePowerContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
