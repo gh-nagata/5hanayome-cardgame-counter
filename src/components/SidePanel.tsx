@@ -83,13 +83,12 @@ const SidePanel = (props: Props) => {
         <div className={`${props.className} text-white flex justify-between
         wide:flex-col
         `}>
-            <a href="" target="_blank" className="font-bold flex justify-center items-center text-center text-base h-12
+            <a href="https://github.com/gh-nagata/5hanayome-cardgame-counter" target="_blank" className="font-bold flex justify-center items-center text-center text-base h-12
             wide:mt-8
             tall:ml-12
             ">
                 使い方
             </a>
-
             <div
                 className={`
                 text-lg font-bold w-12 flex justify-center items-center h-12

@@ -4,7 +4,6 @@ import PlayArea from './components/PlayArea'
 import { DndProvider } from './contexts/DndContext'
 import { CharacterProvider } from './contexts/CharacterContext'
 import { HeroProvider } from './contexts/HeroContext'
-// import OpponentCharacterLane from './components/OpponentCharacterLane'
 
 const App = () => {
   return (
