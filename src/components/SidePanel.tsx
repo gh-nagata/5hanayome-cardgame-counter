@@ -83,7 +83,7 @@ const SidePanel = (props: Props) => {
         <div className={`${props.className} text-white flex justify-between
         wide:flex-col
         `}>
-            <a href="https://github.com/gh-nagata/5hanayome-cardgame-counter" target="_blank" className="font-bold flex justify-center items-center text-center text-base h-12
+            <a href="https://github.com/gh-nagata/5hanayome-cardgame-counter?tab=readme-ov-file#%E4%BD%BF%E3%81%84%E6%96%B9" target="_blank" className="font-bold flex justify-center items-center text-center text-base h-12
             wide:mt-8
             tall:ml-12
             ">
