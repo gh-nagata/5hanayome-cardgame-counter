@@ -51,7 +51,7 @@ const Character = (props: Props) => {
 
     const onClickTotal = () => {
         // setSelectedApproach(props.characterNumber)
-        if ((selectedApproach === null) || (selectedApproach !== props.characterNumber)) { // 現在アプローチ選択中ではない ||  違うとこを選択
+        if (((selectedApproach === null) || (selectedApproach !== props.characterNumber)) && characters[laneNumber].approachHero === null) { // 現在アプローチ選択中ではない ||  違うとこを選択
             setSelectedApproach(props.characterNumber)
         } else if (characters[laneNumber].approachHero !== null) {
             setSelectedApproach(null)   // アプローチ選択中を null

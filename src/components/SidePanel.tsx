@@ -96,10 +96,12 @@ const SidePanel = (props: Props) => {
     };
 
     return (
-        <div className={`${props.className} text-white flex flex-col justify-end`}>
+        <div className={`${props.className} text-white flex flex-col wide:justify-end tall:justify-center wide:items-center tall:items-end`}>
             <div
                 className={`
-                text-lg font-bold w-12 mx-auto flex justify-center items-center h-9 wide:mb-12
+                text-lg font-bold w-12 flex justify-center items-center h-9
+                wide:mb-8
+                tall:mr-12
                 ${time < 0 ? "text-red-500" : ""}`}
                 onClick={() => {
                     if (!isRunning) {

@@ -17,7 +17,7 @@ const App = () => {
           <PlayArea classname='PlayArea flex-1' />
         </HeroProvider>
       </CharacterProvider>
-      <SidePanel className="SidePanel h-full w-12 bg-gray-800 tall:w-full tall:h-12 " />
+      <SidePanel className="SidePanel h-full w-14 bg-gray-800 tall:w-full tall:h-12 " />
     </div>
     // </DndProvider>
   )

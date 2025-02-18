@@ -14,7 +14,7 @@ type Props = {
 
 export const CharacterProvider = (props: Props) => {
 
-    const { turnPlayer } = useInputState()
+    const { selectedApproachState, turnPlayer } = useInputState()
 
     const initialCharacterStates = (): CharacterStateType[] => Array(5).fill(defaultCharacterState);
 
@@ -47,23 +47,25 @@ export const CharacterProvider = (props: Props) => {
     }, [turnPlayer]);
 
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     myCharacterStates[0].forEach((character, i) => {
-    //         console.log(
-    //             i + ': power:' + character.hanayomePower + ' addPower:' + character.addHanayomePower + ' isSelect:' + ' approach:' + character.approachHero
-    //         )
-    //     })
-    //     opponentCharacterStates[0].forEach((character, i) => {
-    //         console.log(
-    //             i + ': power:' + character.hanayomePower + ' addPower:' + character.addHanayomePower + ' isSelect:' + ' approach:' + character.approachHero
-    //         )
-    //     })
 
-    //     return () => {
-    //         console.clear()
-    //     }
-    // }, [myCharacterStates[0], opponentCharacterStates[0]])
+        // console.log('selectedApproachState : ' + selectedApproachState[0]);
+        // myCharacterStates[0].forEach((character, i) => {
+        //     console.log(
+        //         i + ': power:' + character.hanayomePower + ' addPower:' + character.addHanayomePower + ' isSelect:' + ' approach:' + character.approachHero
+        //     )
+        // })
+        // opponentCharacterStates[0].forEach((character, i) => {
+        //     console.log(
+        //         i + ': power:' + character.hanayomePower + ' addPower:' + character.addHanayomePower + ' isSelect:' + ' approach:' + character.approachHero
+        //     )
+        // })
+
+        return () => {
+            // console.clear()
+        }
+    }, [myCharacterStates[0], opponentCharacterStates[0], selectedApproachState[0]])
 
 
     return (
