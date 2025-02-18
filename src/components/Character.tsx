@@ -165,10 +165,10 @@ const Character = (props: Props) => {
                     }
                 }}
             >
-                <option value={-1}>-</option>
-                {[...Array(100)].map((_, i) => (
-                    <option key={i} value={i}>{i}</option>
+                {[...Array(100)].map((_, i) => 99 - i).map((num) => (
+                    <option key={num} value={num}>{num}</option>
                 ))}
+                <option value={-1}>-</option>
             </select>
             <div
                 className={`

@@ -13,7 +13,7 @@ type Props = {
 }
 const Hero = (props: Props) => {
 
-    const { selectedApproachState,  turnPlayer } = useInputState()
+    const { selectedApproachState, turnPlayer } = useInputState()
 
     const { myCharacterStates, opponentCharacterStates } = useCharacterContext();   // new context
     // `[characters, setCharacters]` を `turnPlayer` に応じて切り替え
@@ -82,12 +82,12 @@ const Hero = (props: Props) => {
 
                 }}
             >
-                <option value={-1}>-</option>
-                {[...Array(5)].map((_, i) => (
-                    <option key={i} value={i + 6}>{i + 6}</option>
-                ))}
-                <option value={12}>{12}</option>
                 <option value={17}>{17}</option>
+                <option value={12}>{12}</option>
+                {[...Array(5)].map((_, i) => 10 - i).map((num) => (
+                    <option key={num} value={num}>{num}</option>
+                ))}
+                <option value={-1}>-</option>
             </select>
         );
 

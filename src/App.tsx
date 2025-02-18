@@ -11,13 +11,13 @@ const App = () => {
     // <DndProvider onDragEnd={
     //   (e) => console.log('hello')
     // }>
-    <div className="h-full w-full flex bg-gray-800 tall:flex-col ">
+    <div className="h-full w-full flex bg-gray-800 tall:flex-col">
       <CharacterProvider>
         <HeroProvider>
-          <PlayArea classname='PlayArea flex-1' />
+          <PlayArea classname='PlayArea flex-1 tall:order-2' />
         </HeroProvider>
       </CharacterProvider>
-      <SidePanel className="SidePanel h-full w-14 bg-gray-800 tall:w-full tall:h-12 " />
+      <SidePanel className="SidePanel h-full w-14 bg-gray-800 tall:w-full tall:h-12 tall:order-1" />
     </div>
     // </DndProvider>
   )

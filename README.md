@@ -1,50 +1,47 @@
-# React + TypeScript + Vite
+# [五等分の花嫁カードゲームカウンター](https://gh-nagata.github.io/5hanayome-cardgame-counter/)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+「五等分の花嫁 カードゲーム」用のカウンターアプリです。
 
-Currently, two official plugins are available:
+本アプリの利用によるいかなる損害やトラブルについても、開発者は一切の責任を負いません。  
+詳細は [LICENSE](./LICENSE) をご確認ください。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 使い方
 
-## Expanding the ESLint configuration
+![画面説明の画像](assets/images/howto.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### ① キャラクターレーン
+タップするとキャラクターが出現します。
 
-- Configure the top-level `parserOptions` property like this:
+### ② 主人公レーン
+タップすると **必要花嫁力** が出現します。
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### ③ 必要花嫁力
+タップすると **必要花嫁力** の変更ができます。（6-10, 12, 17）  
+「 **-** 」を選択すると **必要花嫁力** を消去します。  
+アプローチされている場合、アプローチされているレーンによって背景色が変わります。
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### ④ 合計花嫁力
+**花嫁力** と **補助花嫁力** の合計が表示されます。  
+アプローチ中は合計から **必要花嫁力** を引いたものが表示されます。  
+タップすると色が変わり、その状態で **必要花嫁力** をタップするとアプローチ中となります。  
+アプローチ中はアプローチしている **必要花嫁力** と同じ色になります。  
+アプローチ中にタップするとアプローチ状態を解除できます。
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### ⑤ 花嫁力
+タップすると **花嫁力** の変更ができます。
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### ⑥ 補助花嫁力
+**花嫁力** の補助的にお使いください。  
+数字をタップすると **補助花嫁力** が 0 に戻ります。
+
+### ⑦ タイマー
+20分タイマーです。タップするとカウントが始まります。  
+カウント中にタップすると対戦終了となり、画面がリセットされます。（確認ダイアログが表示されます。）
+
+## 今後の更新予定
+
+- *dnd-kit* で移動・入れ替え機能の追加
+
+## 寄付
+
+[![Donate via PayPal](https://www.paypalobjects.com/digitalassets/c/website/marketing/apac/jp/developer/BN-paypal-logo320_145.png)](https://www.paypal.com/paypalme/paypalnagata)
