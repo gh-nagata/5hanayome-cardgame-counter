@@ -3,7 +3,7 @@
 『五等分の花嫁 カードゲーム』用のカウンターアプリです。
 
 本アプリを利用したことによる損害やトラブルについて、開発者は一切の責任を負いません。  
-詳細は [License](https://github.com/gh-nagata/5hanayome-cardgame-counter?tab=License-1-ov-file) をご確認ください。  
+詳細は [License](https://github.com/gh-nagata/5hanayome-cardgame-counter?tab=License-1-ov-file#readme) をご確認ください。  
 
 ## 使い方
 
