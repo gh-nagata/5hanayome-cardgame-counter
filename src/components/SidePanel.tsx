@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import useWakeLock from "../hooks/useWakeLock";
 
 type Props = {
     className?: string;
@@ -9,10 +8,7 @@ const SidePanel = (props: Props) => {
     const [time, setTime] = useState(20 * 60); // 20分（秒単位）
     const [isRunning, setIsRunning] = useState(false);
     const [startTime, setStartTime] = useState<number | null>(null);
-    const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-
-    // Wake Lock API (Android用)
-    const { requestWakeLock, releaseWakeLock } = useWakeLock();
+    const [wakeLock, setWakeLock] = useState<WakeLockSentinel | null>(null);
 
     useEffect(() => {
         if (!isRunning) return;
@@ -40,35 +36,27 @@ const SidePanel = (props: Props) => {
         return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
     }, [isRunning, startTime, time]);
 
-    const handleStart = () => {
+    const handleStart = async () => {
         setIsRunning(true);
         setStartTime(Date.now() - (20 * 60 - time) * 1000);
 
-        // ✅ **iPhone向け：Web Audio API で無音再生**
-        if (!audioContext) {
-            const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-            if (!AudioContextClass) {
-                console.error("Web Audio API がサポートされていません");
-                return;
+        // Wake Lock APIのリクエスト
+        if ("wakeLock" in navigator) {
+            try {
+                const lock = await navigator.wakeLock.request("screen");
+                setWakeLock(lock);
+
+                // Wake Lockが解除されたときの処理
+                lock.addEventListener("release", () => {
+                    console.log("Wake Lock released.");
+                    setWakeLock(null);
+                });
+
+                console.log("Wake Lock acquired.");
+            } catch (err) {
+                console.error("Failed to acquire Wake Lock:", err);
             }
-
-            const ctx = new AudioContextClass();
-            const oscillator = ctx.createOscillator();
-            const gainNode = ctx.createGain();
-
-            oscillator.type = "sine";
-            oscillator.frequency.value = 20; // 低周波音（人間にはほぼ聞こえない）
-            gainNode.gain.value = 0.001; // 極小の音量（完全な無音はNG）
-
-            oscillator.connect(gainNode);
-            gainNode.connect(ctx.destination);
-            oscillator.start();
-
-            setAudioContext(ctx);
         }
-
-        // ✅ **Android向け：Wake Lock API をリクエスト**
-        requestWakeLock();
     };
 
     const handleReset = () => {
@@ -76,14 +64,10 @@ const SidePanel = (props: Props) => {
         setTime(20 * 60);
         setStartTime(null);
 
-        // Web Audio API の無音再生を停止
-        if (audioContext) {
-            audioContext.close();
-            setAudioContext(null);
+        // Wake Lockを解除
+        if (wakeLock) {
+            wakeLock.release().then(() => setWakeLock(null));
         }
-
-        // Wake Lock API の解除
-        releaseWakeLock();
     };
 
     const formatTime = (seconds: number) => {
