@@ -1,6 +1,6 @@
 Copyright &copy; 2025 t.nagata
 
-「[五等分の花嫁カードゲームカウンター](https://gh-nagata.github.io/5hanayome-cardgame-counter/)」(以下、本アプリ)は、「五等分の花嫁 カードゲーム」の補助ツールとして作成されています。  
+『[五等分の花嫁カードゲームカウンター](https://gh-nagata.github.io/5hanayome-cardgame-counter/)』(以下、本アプリ)は、『五等分の花嫁 カードゲーム』の補助ツールとして作成されています。  
 **本アプリは株式会社ブシロードとは一切関係がありません。**
 
 ### ライセンス規約
