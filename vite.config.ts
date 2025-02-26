@@ -15,7 +15,7 @@ export default defineConfig({
         theme_color: '#1f2937',
         background_color: '#ffffff',
         display: 'standalone',
-        orientation: "landscape",
+        // orientation: "landscape",
         icons: [
           {
             src: '/5hanayome-cardgame-counter/icons/icon-192x192.png',
