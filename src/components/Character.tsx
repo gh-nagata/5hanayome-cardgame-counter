@@ -177,7 +177,7 @@ const Character = (props: Props) => {
                     `}
                 style={{    // レーン番号によって approachStates のカラーを変更
                     backgroundColor: ((selectedApproach === props.characterNumber) || (characters[laneNumber].approachHero !== null)) ? hanayomeColor[laneNumber] : '',
-                    color: ((selectedApproach === props.characterNumber) || (characters[laneNumber].approachHero !== null)) ? '' : 'rgba(0, 0, 0, 0.4)'
+                    color: ((selectedApproach === props.characterNumber) || (characters[laneNumber].approachHero !== null)) ? '' : 'rgba(128, 128, 128, 1)'
                 }}
                 onClick={onClickTotal}
             >
