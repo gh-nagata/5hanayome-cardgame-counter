@@ -18,7 +18,7 @@ const WaitingRoomCount = (props: Props) => {
             <div className='w-24 h-full relative'>
                 <div className='h-full'>
                     <select
-                        className={clsx('absolute w-full h-full', selectVisible ? 'opacity-100' : 'opacity-0')}
+                        className={clsx('absolute w-full h-full', selectVisible ? '' : 'opacity-0')}
                         style={{ textAlignLast: 'center' }}  // iPhoneで中央揃え
                         onFocus={() => setSelectVisible(true)}
                         onBlur={() => setSelectVisible(false)}
