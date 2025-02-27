@@ -20,11 +20,11 @@ const PlayArea = (props: Props) => {
     ))
 
     return (
-        <div className={`${props.classname} flex flex-col justify-center`}>
+        <div className={`PlayArea ${props.classname} flex flex-col justify-center`}>
             <div className='CharacterLanes flex flex-1  tall:max-h-60 bg-gray-600'>
                 {OpponentCharacterLanes}
             </div>
-            <div className='HeroLanes flex min-h-12 h-1/6 max-h-20 bg-gray-600'>
+            <div className='HeroLanes flex h-14 bg-gray-600'>
                 {HeroLanes}
             </div>
             <div className='CharacterLanes flex flex-1  tall:max-h-60 bg-gray-600'>
