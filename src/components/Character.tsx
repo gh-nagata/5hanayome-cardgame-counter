@@ -172,11 +172,12 @@ const Character = (props: Props) => {
             </select>
             <div
                 className={`
-                    h-1/3 flex justify-center items-center
+                    h-1/3 flex justify-center items-center tex
                     tall:h-12
                     `}
                 style={{    // レーン番号によって approachStates のカラーを変更
-                    backgroundColor: ((selectedApproach === props.characterNumber) || (characters[laneNumber].approachHero !== null)) ? hanayomeColor[laneNumber] : ''
+                    backgroundColor: ((selectedApproach === props.characterNumber) || (characters[laneNumber].approachHero !== null)) ? hanayomeColor[laneNumber] : '',
+                    color: ((selectedApproach === props.characterNumber) || (characters[laneNumber].approachHero !== null)) ? '' : 'rgba(0, 0, 0, 0.4)'
                 }}
                 onClick={onClickTotal}
             >
