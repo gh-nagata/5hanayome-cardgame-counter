@@ -172,7 +172,7 @@ const Character = (props: Props) => {
             </select>
             <div
                 className={`
-                    h-1/3 flex justify-center items-center back-slate-500 
+                    h-1/3 flex justify-center items-center
                     tall:h-12
                     `}
                 style={{    // レーン番号によって approachStates のカラーを変更
