@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
 import WaitingRoomCount from './WaitingRoomCount'
-import Minus3Count from './minus3Count'
 import BougaiCount from './BougaiCount'
 
 

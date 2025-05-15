@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { useState } from 'react'
-import Minus3Count from './minus3Count'
 import Minus8Count from './Minus8Count'
+import Minus3Count from './minus3Count'
 
 type Props = {
     classname?: string
