@@ -12,7 +12,8 @@ const App = () => {
     //   (e) => console.log('hello')
     // }>
     <div className="h-full w-full flex bg-gray-800 tall:flex-col">
-      <InfoPanel classname='tall:h-14 order-2 my-2 wide:hidden' />
+      {/* <InfoPanel classname='tall:h-16 order-2 my-2 wide:hidden' /> */}
+      <InfoPanel classname='order-2 my-2 wide:hidden' />
       <CharacterProvider>
         <HeroProvider>
           <PlayArea classname='PlayArea flex-1 tall:order-3' />

@@ -4,17 +4,16 @@ import React, { useState } from 'react'
 type Props = {
     classname?: string
 }
-const WaitingRoomCount = (props: Props) => {
+const Minus3Count = (props: Props) => {
 
-    const [waitingRoomCount, setWaitingRoomCount] = useState(0)
+    const [minus3Count, setMinus3Count] = useState(0)
     const [selectVisible, setSelectVisible] = useState(false)
 
     return (
-        // <div className={clsx('WaitingRoom  bg-white flex justify-center items-center', props.classname)}>
-        <div className={clsx('WaitingRoom h-12 w-1/2 bg-white flex  items-center', props.classname)}>
+        <div className={clsx('BougaiCount h-full w-1/2 bg-white flex  items-center', props.classname)}>
             <button
                 className='w-12 h-full  bg-blue-500 text-white'
-                onClick={() => setWaitingRoomCount((prev) => Math.max(0, prev - 1))}
+                onClick={() => setMinus3Count((prev) => Math.max(0, prev - 1))}
             >-</button>
             <div className='flex-1 h-full relative'>
                 <div className='h-full'>
@@ -23,34 +22,34 @@ const WaitingRoomCount = (props: Props) => {
                         style={{ textAlignLast: 'center' }}  // iPhoneで中央揃え
                         onFocus={() => setSelectVisible(true)}
                         onBlur={() => setSelectVisible(false)}
-                        value={waitingRoomCount}
+                        value={minus3Count}
                         onChange={(e) => {
                             const value = Number(e.target.value)
-                            setWaitingRoomCount(value)
+                            setMinus3Count(value)
                             e.target.blur()
                         }}
                     >
-                        {[...Array(51)].map((_, i) => 50 - i).map((num) => (
+                        {[...Array(5)].map((_, i) => 4 - i).map((num) => (
                             <option key={num} value={num}>{num}</option>
                         ))}
                     </select>
                     <div className='w-full h-full flex flex-col'>
 
                         <div className='flex justify-center items-center flex-1'>
-                            控え室 × {waitingRoomCount}
+                            -3 × {minus3Count}
                         </div>
-                        <div className='flex justify-center items-center flex-1'>
-                            キッカケ {Math.floor(waitingRoomCount / 5) + 2}
-                        </div>
+                        {/* <div className='flex justify-center items-center flex-1'>
+                            キッカケ {Math.floor(minus3Count / 5) + 2}
+                        </div> */}
                     </div>
                 </div>
             </div>
             <button
                 className='w-12 h-full bg-red-500 text-white'
-                onClick={() => setWaitingRoomCount((prev) => Math.min(50, prev + 1))}
-            >+</button>
+                onClick={() => setMinus3Count((prev) => Math.min(4, prev + 1))} 
+                >+</button>
         </div>
     )
 }
 
-export default WaitingRoomCount
+export default Minus3Count
